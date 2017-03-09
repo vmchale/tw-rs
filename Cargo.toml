@@ -1,0 +1,9 @@
+[package]
+name = "clit-rs"
+version = "0.1.0"
+authors = ["Vanessa McHale <tmchale@wisc.edu>"]
+
+[dependencies]
+oauth-client = "0.1"
+nom = "^2.1"
+url = "1.4.0"
