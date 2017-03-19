@@ -1,0 +1,38 @@
+name: Command Line Interface Tweeter
+version: "0.1.0"
+author: Vanessa McHale <tmchale@wisc.edu>
+about: Tweet and view tweets from the command line. 
+args:
+    - credentials:
+        short: c
+        long: cred
+        value_name: CREDENTIALS
+        help: Path to file containing your credentials.
+        takes_value: true
+subcommands:
+    - user:
+        about: View a user's timeline 
+        version: "0.1.0"
+        author: Vanessa McHale <tmchale@wisc.edu>
+        args:
+            - screen_name:
+                help: Screen name of user
+                index: 1
+            - color:
+                short: l
+                long: color
+                help: turn on color
+            - number: 
+                value_name: NUMBER
+                help: Number of tweets to fetch (default 8)
+                short: n
+                takes_value: true
+    - tweet:
+        about: Tweet text
+        version: "0.1.0"
+        author: Vanessa McHale <tmchale@wisc.edu>
+        args:
+            - WORD:
+                help: Text to tweet
+                required: true
+                #mutiple: true
