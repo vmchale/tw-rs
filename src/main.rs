@@ -25,6 +25,8 @@ fn main() {
     //my_string.parse::<i32>().unwrap();
     let mut param = HashMap::new();
     let _ = param.insert("count".into(), "2".into());
+    let api_key = oauth_client::Token::new("KYWlTUp3Gpa7AluQRGlagfJLC","5kPUdSEfGUHHUbzrvF8Bw2ok756ljexGGK40DcuyIpiFGSv5zI");
+    let token = oauth_client::Token::new("739626641450635265-1o4PFsZgKiyzGCRvM5UCb25yMUjQzfU","jWORKOIiXHBAxJAzrhMUogzDi3BPz3eC7jY3g0i5ajjoN");
     let bytes_raw = oauth_client::get(api::USER_TIMELINE, &api_key, Some(&token), Some(&param)).unwrap();
     let resp = String::from_utf8(bytes_raw).unwrap();
     let bytes_slice = resp.as_bytes();
