@@ -7,3 +7,6 @@
 - [x] screenshots for readme
 - [ ] write something on contributions
 - [ ] put parsers in their own module
+- [ ] separate functions to return tweets vs. print them.
+- [ ] threading etc. with getting id string?
+- [ ] reply subcommand?

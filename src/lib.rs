@@ -1,3 +1,9 @@
+//! This crate provides an executable Command Line Iinterface Tweeter, as well as several functions to return
+//! tweets.
+//!
+//! ```c
+//! $ tw send "tweeting from the command line :)"
+//! ```
 #[macro_use] extern crate nom;
 
 extern crate oauth_client_fix as oauth_client;
@@ -11,6 +17,17 @@ pub mod parse;
 pub mod types;
 
 /// Reads credentials from a string, i.e. gets them from a file.
+///
+/// # Examples
+///
+/// Put the following into a file:
+///
+/// ```c
+/// api-key: API_KEY_HERE
+/// api-sec: API_SECRET_HERE
+/// tok: OAUTH_TOKEN_HERE
+/// tok-sec: TOKEN_SECRET_HERE
+/// ```
 pub fn get_credentials(contents: &str) -> (Token, Token) {
     let mut iter = contents.split_whitespace();
     iter.next();
@@ -53,7 +70,7 @@ pub fn print_profile(screen_name: &str, num: u8, api_key: Token, token: Token) {
         }
     }
     else {
-        println!("Parse error");
+        println!("Parse error when attempting to read tweet data.");
     }
 }
 
@@ -77,7 +94,7 @@ pub fn tweet(sent_text: &str, api_key: Token, token: Token) {
         }
     }
     else {
-        println!("Parse error");
+        println!("Parse error when attempting to read tweet data.");
     }
 }
 
@@ -106,7 +123,7 @@ pub fn print_timeline(num: u8, api_key: Token, token: Token) {
         }
     }
     else {
-        println!("Parse error");
+        println!("Parse error when attempting to read tweet data.");
     }
 }
 

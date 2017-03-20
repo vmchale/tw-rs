@@ -1,3 +1,6 @@
+//! This module contains the types for use by the tweet library. It implements Display, so you can
+//! print it out easily. 
+
 extern crate colored;
 
 use std::str::from_utf8;
@@ -13,7 +16,7 @@ pub struct Tweet<'a>{
     pub favorites: &'a[u8],
 }
 
-// global variable controlling coloring?? 
+// TODO global variable controlling coloring?? 
 impl<'a> fmt::Display for Tweet<'a> {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         let heart = "\u{1F49C}".red(); // \u{2665}

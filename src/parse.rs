@@ -1,5 +1,4 @@
-//#[macro_use]
-
+//! This module contains the parser to turn a byte slice into a [Tweet](struct.Tweet.html)
 use nom::IResult;
 use types::Tweet;
 use std::str::from_utf8;
@@ -13,7 +12,6 @@ fn char_vector_to_string(v: Vec<char>) -> String {
 // TODO consider making this a methd?
 // HOT TAKE: oop is just functional programming where composition is backwards
 fn replace_unicode(string: &str) -> char {
-    //let num_int = u32::from_str_radix(&string[2..6], 16)
     let num_int = u32::from_str_radix(&string[0..4], 16)
         .expect("Failed to parses hexadecimal");
     if let Some(return_value) = from_u32(num_int) {
@@ -115,7 +113,11 @@ named!(step_parse<&[u8], Tweet >,
 );
 named!(big_parser<&[u8], Vec<Tweet> > , many0!(step_parse)); 
 
-/// Parse a slice of bytes as a vector of tweets
+/// Parse a slice of bytes as a vector of tweets. The input should be the JSON-formatted response
+/// sent back by twitter. You can look at an example response
+/// [here](https://dev.twitter.com/rest/reference/get/statuses/user_timeline).
+///
+/// The function returns an IResult, so you can pattern match to use it. 
 pub fn parse_tweets(str_in: &[u8]) -> IResult<&[u8], Vec<Tweet>> {
     big_parser(str_in)
 }
