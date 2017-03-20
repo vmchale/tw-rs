@@ -43,13 +43,15 @@ subcommands:
                 takes_value: true
                 value_name: NUMBER
                 help: Number of tweets to fetch (default 15)
-    - tweet:
+    - send:
         about: Tweet text
         version: "0.1.0"
         author: Vanessa McHale <tmchale@wisc.edu>
         args:
-            - WORD:
+            - words:
+                index: 1
                 help: Text to tweet
+                value_name: WORDS
                 required: true
                 #mutiple: true #jk this needs actual quotes ;(
                 # TODO yoko-ono command to actually tweet exactly one thing

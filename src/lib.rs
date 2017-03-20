@@ -30,12 +30,12 @@ pub fn get_credentials(contents: &str) -> (Token, Token) {
 
 // TODO consider making this a methd?
 // HOT TAKE: oop is just functional programming where composition is backwards
-pub fn replace_specials(string: &str) -> String {
+fn replace_specials(string: &str) -> String {
     let result = string.replace("\\/", "/").replace("\\n","\n").replace("\\\"","\"");
     result
 }
 
-pub fn replace_unicode(string: &str) -> char {
+fn replace_unicode(string: &str) -> char {
     let num_int = u32::from_str_radix(&string[2..6], 16)
         .expect("Failed to parses hexadecimal");
     from_u32(num_int)
@@ -60,6 +60,32 @@ pub fn print_profile(screen_name: &str, api_key: Token, token: Token) {
     else {
         println!("Parse error");
     }
+}
+
+/// Display timeline for a given user
+pub fn tweet(sent_text: &str, api_key: Token, token: Token) {
+    let mut param = HashMap::new();
+    let _ = param.insert("status".into(), sent_text.into());
+    let url_str = oauth_client::authorization_header("POST", api::STATUS_UPDATE, &api_key, Some(&token), Some(&param));
+    println!("{}", url_str);
+    let bytes_raw = oauth_client::post(api::STATUS_UPDATE, &api_key, Some(&token), Some(&param)).unwrap();
+    let resp = String::from_utf8(bytes_raw).unwrap();
+    let bytes_slice = resp.as_bytes();
+    let parsed_maybe = parse_tweets(bytes_slice);
+    if let IResult::Done(_,parsed) = parsed_maybe {
+        for i in 0..parsed.len() {
+            println!("{}", parsed[i]);
+        }
+    }
+    else {
+        println!("Parse error");
+    }
+}
+
+// .as_slice() to convert char vector to str
+fn char_vector_to_string(v: Vec<char>) -> String {
+    let s:String = v.into_iter().collect();
+    s
 }
 
 // TODO take in number as u32 or whatever
@@ -131,12 +157,11 @@ named!(special_char,
 named!(name_value,
   do_parse!(
     take_until!("\"name\"") >>
-    tag!("\"name\":") >> // of course we want it to work more than once!
+    tag!("\"name\":") >> // fix so it doesn't take the first 
     value: field >>
     (value)
   )
 );
-//figure out how to efficiently do this: macros probably?
 named!(retweets_value,
   do_parse!(
     take_until!("\"retweet_count\"") >>
