@@ -16,7 +16,7 @@ tok-sec: TOKEN_SECRET_HERE
 ## Installation
 
 If you're on Linux/Windows the best way is probably to download the binaries
-from the releases page [here](https://github.com/vmchale/command-line-tweeter-rs/releases).
+from the releases page [here](https://github.com/vmchale/clit-rs/releases).
 
 To build from source, install [cargo](https://www.rustup.rs/) via rustup; on unix systems this is as simple as
 

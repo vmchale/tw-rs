@@ -36,10 +36,24 @@ fn main() {
     let (key, token) = get_credentials(&contents);
     if let Some(command) = matches.subcommand_matches("user") {
         if let Some(user) = command.value_of("screen_name") {
-            print_profile(user, key, token) // does the as_bytes screw us up??
+            if let Some(num) = command.value_of("count") {
+                let num_int = num.parse::<u8>()
+                    .expect("Please enter a positive whole number");
+                print_profile(user, num_int, key, token);
+            }
+            else {
+                print_profile(user, 8, key, token);
+            }
         }
         else {
-        print_profile("hung_pope", key, token)
+            if let Some(num) = command.value_of("count") {
+                let num_int = num.parse::<u8>()
+                    .expect("Please enter a positive whole number");
+                print_profile("", num_int, key, token);
+            }
+            else {
+                print_profile("", 8, key, token); // FIXME don't ask for home profile? or better yet,
+            }
         }
     }
     else if let Some(command) = matches.subcommand_matches("view") {
