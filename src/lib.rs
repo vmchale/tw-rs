@@ -42,11 +42,21 @@ fn replace_unicode(string: &str) -> char {
         .expect("Failed to convert to unicode")
 }
 
-/// Display timeline for a given user
-pub fn print_profile(screen_name: &str, api_key: Token, token: Token) {
+/// Display profile for a given user. Takes screen name and number of tweets to return as
+/// parameters. 
+///
+/// Note that Twitter's API allow for a maximum of 3200 tweets at a time by this method. 
+///
+/// # Examples
+/// 
+/// ```
+/// print_profile(realDonaldTrump, 100, API_KEY, TOKEN);
+/// ```
+pub fn print_profile(screen_name: &str, num: u8, api_key: Token, token: Token) {
     let mut param = HashMap::new();
+    let num_str = num.to_string();
     let _ = param.insert("screen_name".into(), screen_name.into());
-    let _ = param.insert("count".into(), "8".into()); // TODO accept number of tweets to get
+    let _ = param.insert("count".into(), num_str.into()); // TODO accept number of tweets to get
     let bytes_raw = oauth_client::get(api::USER_PROFILE, &api_key, Some(&token), Some(&param)).unwrap();
     // convert vector of u8's to &[u8] (array slice)
     let resp = String::from_utf8(bytes_raw).unwrap();
@@ -62,10 +72,16 @@ pub fn print_profile(screen_name: &str, api_key: Token, token: Token) {
     }
 }
 
-/// Display timeline for a given user
+/// Send a tweet
+///
+/// # Examples
+///
+/// ```
+/// tweet("having a good day :)", API_KEY, TOKEN);
+/// ```
 pub fn tweet(sent_text: &str, api_key: Token, token: Token) {
     let mut param = HashMap::new();
-    let _ = param.insert("status".into(), sent_text.into());
+    let _ = param.insert("status".into(), sent_text[0..140].into());
     let bytes_raw = oauth_client::post(api::STATUS_UPDATE, &api_key, Some(&token), Some(&param)).unwrap();
     let resp = String::from_utf8(bytes_raw).unwrap();
     let bytes_slice = resp.as_bytes();
@@ -86,7 +102,16 @@ fn char_vector_to_string(v: Vec<char>) -> String {
     s
 }
 
-// TODO take in number as u32 or whatever
+/// Display timeline. Takes number of tweets to return as
+/// a parameter. 
+///
+/// Note that Twitter's API allow for a maximum of 3200 tweets at a time by this method. 
+///
+/// # Examples
+/// 
+/// ```
+/// print_timeline(5, API_KEY, TOKEN);
+/// ```
 pub fn print_timeline(num: u8, api_key: Token, token: Token) {
     let num_str = num.to_string();
     let mut param = HashMap::new();
