@@ -66,8 +66,6 @@ pub fn print_profile(screen_name: &str, api_key: Token, token: Token) {
 pub fn tweet(sent_text: &str, api_key: Token, token: Token) {
     let mut param = HashMap::new();
     let _ = param.insert("status".into(), sent_text.into());
-    let url_str = oauth_client::authorization_header("POST", api::STATUS_UPDATE, &api_key, Some(&token), Some(&param));
-    println!("{}", url_str);
     let bytes_raw = oauth_client::post(api::STATUS_UPDATE, &api_key, Some(&token), Some(&param)).unwrap();
     let resp = String::from_utf8(bytes_raw).unwrap();
     let bytes_slice = resp.as_bytes();
