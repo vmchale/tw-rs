@@ -1,5 +1,6 @@
 [package]
 name = "clit-rs"
+description = "Command line tool allow you to access twitter"
 version = "0.1.0"
 authors = ["Vanessa McHale <tmchale@wisc.edu>"]
 license-file = "LICENSE"
