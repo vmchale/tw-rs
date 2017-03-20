@@ -5,7 +5,7 @@ extern crate oauth_client;
 extern crate core;
 
 use std::collections::HashMap;
-use nom::{IResult};
+use nom::{IResult, anychar};
 use std::fmt;
 use colored::*;
 use std::str::from_utf8;
@@ -36,7 +36,8 @@ fn replace_specials(string: &str) -> String {
 }
 
 fn replace_unicode(string: &str) -> char {
-    let num_int = u32::from_str_radix(&string[2..6], 16)
+    //let num_int = u32::from_str_radix(&string[2..6], 16)
+    let num_int = u32::from_str_radix(&string[0..4], 16)
         .expect("Failed to parses hexadecimal");
     from_u32(num_int)
         .expect("Failed to convert to unicode")
@@ -151,7 +152,9 @@ impl<'a> fmt::Display for Tweet<'a> {
                from_utf8(self.retweets).unwrap())
     }
 }
-named!(prefield, take_until!("\",")); // FIXME this mostly works.
+// 'char not equal to' parser would be nice!!
+named!(inner_char<&[u8], char>, alt!(unicode_char | special_char | newline_char | none_of!("\\\"")));
+named!(prefield, take_until!("\",")); // FIXME this mostly works, but should accept quotes too
 named!(field, delimited!(char!('"'), prefield, char!('"')));
 named!(int_field, take_until!(","));
 named!(text_value,
@@ -162,19 +165,31 @@ named!(text_value,
     (value)
   )
 );
-named!(unicode_char,
+named!(unicode_char<&[u8], char>,
   do_parse!(
     tag!("\\u") >>
     num: take!(4) >>
-    (num)
+    //char.encode_utf8(&mut [0;4]).as_bytes()
+    (replace_unicode(from_utf8(num).expect("Failed to convert to bytes. Bad!!")))
   )
 );
-//from_u32 is what we want I think
-named!(special_char,
+//named!(unicode_bytes, 
+//  do_parse!(
+//    our_char: unicode_char >>
+//    (our_char.encode_utf8(&mut [0;4]).to_owned().as_bytes())
+//  )
+//);
+named!(special_char<&[u8], char>,
   do_parse!(
     char!('\\') >>
     value: take!(1) >>
-    (value)
+    (from_utf8(value).unwrap().chars().next().unwrap())
+  )
+);
+named!(newline_char<&[u8], char>,
+  do_parse!(
+    tag!("\\\n") >>
+    ('\n')
   )
 );
 named!(name_value,
@@ -212,8 +227,7 @@ named!(step_parse<&[u8], Tweet >,
 );
 named!(big_parser<&[u8], Vec<Tweet> > , many0!(step_parse)); 
 
-// consider an example? long though that may be
-/// Parse a string of bytes as a vector of tweets
+/// Parse a slice of bytes as a vector of tweets
 pub fn parse_tweets(str_in: &[u8]) -> IResult<&[u8], Vec<Tweet>> {
     big_parser(str_in)
 }
