@@ -6,7 +6,6 @@ dependencies = [
  "colored 1.4.1 (registry+https://github.com/rust-lang/crates.io-index)",
  "nom 2.1.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "oauth-client 0.1.4 (registry+https://github.com/rust-lang/crates.io-index)",
- "url 1.4.0 (registry+https://github.com/rust-lang/crates.io-index)",
 ]
 
 [[package]]

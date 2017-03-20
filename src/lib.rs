@@ -1,11 +1,86 @@
 #[macro_use] extern crate nom;
 
 extern crate colored;
+extern crate oauth_client;
+extern crate core;
 
+use std::collections::HashMap;
 use nom::{IResult};
 use std::fmt;
 use colored::*;
 use std::str::from_utf8;
+use oauth_client::Token;
+use std::u32;
+use core::char::from_u32;
+
+pub fn get_credentials(contents: &str) -> (Token, Token) {
+    let mut iter = contents.split_whitespace();
+    iter.next();
+    let api_key = iter.next().expect("");
+    iter.next();
+    let api_sec = iter.next().expect("");
+    iter.next();
+    let tok = iter.next().expect("");
+    iter.next();
+    let tok_sec = iter.next().expect("");
+    let key = oauth_client::Token::new(api_key, api_sec);
+    let token = oauth_client::Token::new(tok,tok_sec);
+    (key, token)
+}
+
+// TODO consider making this a methd?
+// HOT TAKE: oop is just functional programming where composition is backwards
+pub fn replace_specials(string: &str) -> String {
+    let result = string.replace("\\/", "/").replace("\\n","\n").replace("\\\"","\"");
+    result
+}
+
+pub fn replace_unicode(string: &str) -> char {
+    let num_int = u32::from_str_radix(&string[2..6], 16)
+        .expect("Failed to parses hexadecimal");
+    from_u32(num_int)
+        .expect("Failed to convert to unicode")
+}
+
+/// Display timeline for a given user
+pub fn print_profile(screen_name: &str, api_key: Token, token: Token) {
+    let mut param = HashMap::new();
+    let _ = param.insert("screen_name".into(), screen_name.into());
+    let _ = param.insert("count".into(), "8".into()); // TODO accept number of tweets to get
+    let bytes_raw = oauth_client::get(api::USER_PROFILE, &api_key, Some(&token), Some(&param)).unwrap();
+    // convert vector of u8's to &[u8] (array slice)
+    let resp = String::from_utf8(bytes_raw).unwrap();
+    let bytes_slice = resp.as_bytes();
+    let parsed_maybe = parse_tweets(bytes_slice);
+    if let IResult::Done(_,parsed) = parsed_maybe {
+        for i in 0..parsed.len() {
+            println!("{}", parsed[i]);
+        }
+    }
+    else {
+        println!("Parse error");
+    }
+}
+
+// TODO take in number as u32 or whatever
+pub fn print_timeline(num: u8, api_key: Token, token: Token) {
+    let num_str = num.to_string();
+    let mut param = HashMap::new();
+    let _ = param.insert("count".into(), num_str.into()); 
+    let bytes_raw = oauth_client::get(api::TIMELINE, &api_key, Some(&token), Some(&param)).unwrap();
+    // convert vector of u8's to &[u8] (array slice)
+    let resp = String::from_utf8(bytes_raw).unwrap();
+    let bytes_slice = resp.as_bytes();
+    let parsed_maybe = parse_tweets(bytes_slice);
+    if let IResult::Done(_,parsed) = parsed_maybe {
+        for i in 0..parsed.len() {
+            println!("{}", parsed[i]);
+        }
+    }
+    else {
+        println!("Parse error");
+    }
+}
 
 pub struct Tweet<'a>{
     pub text: &'a[u8],
@@ -19,17 +94,16 @@ impl<'a> fmt::Display for Tweet<'a> {
         let heart = "\u{1F49C}".red(); // \u{2665}
         let retweets = "\u{F079}".green(); // \u{267A}
         write!(f, "{}\n    {}\n    {} {} {}  {}\n", 
-               from_utf8(self.name).unwrap().yellow(), 
-               from_utf8(self.text).unwrap(),
+               replace_specials((from_utf8(self.name)).unwrap()).yellow(), 
+               replace_specials((from_utf8(self.text)).unwrap()), 
                heart,
                from_utf8(self.favorites).unwrap(),
                retweets,
                from_utf8(self.retweets).unwrap())
     }
 }
-
-named!(prefield, delimited!(char!('"'), is_not!("\"\\"), char!('"'))); 
-named!(field, alt!(prefield | unicode_char | special_char));
+named!(prefield, take_until!("\",")); // FIXME this mostly works.
+named!(field, delimited!(char!('"'), prefield, char!('"')));
 named!(int_field, take_until!(","));
 named!(text_value,
   do_parse!(
@@ -41,8 +115,7 @@ named!(text_value,
 );
 named!(unicode_char,
   do_parse!(
-    char!('\\') >>
-    char!('u') >>
+    tag!("\\u") >>
     num: take!(4) >>
     (num)
   )
@@ -99,7 +172,7 @@ pub fn parse_tweets(str_in: &[u8]) -> IResult<&[u8], Vec<Tweet>> {
 
 /// urls for the twitter api 
 pub mod api {
-    pub const USER_TIMELINE: &'static str = "https://api.twitter.com/1.1/statuses/user_timeline.json";
+    pub const USER_PROFILE: &'static str = "https://api.twitter.com/1.1/statuses/user_timeline.json";
     pub const TIMELINE: &'static str = "https://api.twitter.com/1.1/statuses/home_timeline.json";
     pub const STATUS_UPDATE: &'static str = "https://api.twitter.com/1.1/statuses/update.json";
 }
