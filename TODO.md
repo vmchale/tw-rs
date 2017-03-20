@@ -1,0 +1,5 @@
+- [ ] fix parser so it skips of user entities?
+  - [ ] use something to fix that, i.e.
+- [ ] option to disable color/fancy retweet symbol
+- [ ] parse unicode
+- [ ] parse stuff aside from unicode(?)
