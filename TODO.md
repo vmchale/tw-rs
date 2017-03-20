@@ -4,4 +4,6 @@
   - [ ] does Display have a color-free version?
 - [x] parse unicode
 - [x] oauth-client-rs extra library?
+- [x] screenshots for readme
+- [ ] write something on contributions
 - [ ] put parsers in their own module

@@ -70,3 +70,7 @@ to view your own timeline.
 ## Library
 
 A library is included. It's fairly easy to use once you have the credentials set up, with three functions: one to post a status, one to get your timeline, and one to get a user profile.
+
+### Haskell
+
+There is a haskell version of this, with a binary and a library, avaiable [here](https://github.com/vmchale/command-line-tweeter).
