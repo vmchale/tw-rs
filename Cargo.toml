@@ -4,7 +4,7 @@ version = "0.1.0"
 authors = ["Vanessa McHale <tmchale@wisc.edu>"]
 
 [dependencies]
-oauth-client = { git = "https://github.com/justinj/oauth-client-rs", branch = "master" }
+oauth-client-fix = "0.1"
 nom = "2.1"
 colored = "1.4"
 clap = {version = "2.19", features = ["yaml"]}

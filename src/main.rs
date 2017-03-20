@@ -1,6 +1,6 @@
 #[macro_use] extern crate clap;
 
-extern crate oauth_client;
+extern crate oauth_client_fix as oauth_client;
 extern crate libclit;
 extern crate nom;
 

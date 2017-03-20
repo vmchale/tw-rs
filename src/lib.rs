@@ -1,7 +1,7 @@
 #[macro_use] extern crate nom;
 
 extern crate colored;
-extern crate oauth_client;
+extern crate oauth_client_fix as oauth_client;
 extern crate core;
 
 use std::collections::HashMap;
@@ -226,6 +226,9 @@ named!(step_parse<&[u8], Tweet >,
   )
 );
 named!(big_parser<&[u8], Vec<Tweet> > , many0!(step_parse)); 
+//to convert char vector to a string (e.g. for Tweet struct.
+//let v = vec!['a', 'b', 'c', 'd'];
+//let s: String = v.into_iter().collect();
 
 /// Parse a slice of bytes as a vector of tweets
 pub fn parse_tweets(str_in: &[u8]) -> IResult<&[u8], Vec<Tweet>> {
