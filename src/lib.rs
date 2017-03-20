@@ -13,6 +13,8 @@ use oauth_client::Token;
 use std::u32;
 use core::char::from_u32;
 
+
+/// Reads credentials from a string, i.e. gets them from a file.
 pub fn get_credentials(contents: &str) -> (Token, Token) {
     let mut iter = contents.split_whitespace();
     iter.next();
@@ -39,8 +41,12 @@ fn replace_unicode(string: &str) -> char {
     //let num_int = u32::from_str_radix(&string[2..6], 16)
     let num_int = u32::from_str_radix(&string[0..4], 16)
         .expect("Failed to parses hexadecimal");
-    from_u32(num_int)
-        .expect("Failed to convert to unicode")
+    if let Some(return_value) = from_u32(num_int) {
+        return_value 
+    }
+    else {
+        '�'
+    }
 }
 
 /// Display profile for a given user. Takes screen name and number of tweets to return as
@@ -133,8 +139,10 @@ pub fn print_timeline(num: u8, api_key: Token, token: Token) {
 }
 
 pub struct Tweet<'a>{
-    pub text: &'a[u8],
-    pub name: &'a[u8],
+    //pub text: &'a[u8],
+    pub text: String,
+    //pub name: &'a[u8],
+    pub name: String,
     pub retweets: &'a[u8],
     pub favorites: &'a[u8],
 }
@@ -144,8 +152,8 @@ impl<'a> fmt::Display for Tweet<'a> {
         let heart = "\u{1F49C}".red(); // \u{2665}
         let retweets = "\u{F079}".green(); // \u{267A}
         write!(f, "{}\n    {}\n    {} {} {}  {}\n", 
-               replace_specials((from_utf8(self.name)).unwrap()).yellow(), 
-               replace_specials((from_utf8(self.text)).unwrap()), 
+               self.name, 
+               self.text, 
                heart,
                from_utf8(self.favorites).unwrap(),
                retweets,
@@ -154,10 +162,11 @@ impl<'a> fmt::Display for Tweet<'a> {
 }
 // 'char not equal to' parser would be nice!!
 named!(inner_char<&[u8], char>, alt!(unicode_char | special_char | newline_char | none_of!("\\\"")));
-named!(prefield, take_until!("\",")); // FIXME this mostly works, but should accept quotes too
-named!(field, delimited!(char!('"'), prefield, char!('"')));
+//named!(prefield, take_until!("\",")); // FIXME this mostly works, but should accept quotes too
+named!(prefield<&[u8], Vec<char> >, many0!(inner_char)); 
+named!(field<&[u8], Vec<char> >, delimited!(char!('"'), prefield, char!('"')));
 named!(int_field, take_until!(","));
-named!(text_value,
+named!(text_value<&[u8], Vec <char> >,
   do_parse!(
     take_until!("\"text\"") >>
     tag!("\"text\":") >>
@@ -173,12 +182,6 @@ named!(unicode_char<&[u8], char>,
     (replace_unicode(from_utf8(num).expect("Failed to convert to bytes. Bad!!")))
   )
 );
-//named!(unicode_bytes, 
-//  do_parse!(
-//    our_char: unicode_char >>
-//    (our_char.encode_utf8(&mut [0;4]).to_owned().as_bytes())
-//  )
-//);
 named!(special_char<&[u8], char>,
   do_parse!(
     char!('\\') >>
@@ -192,7 +195,7 @@ named!(newline_char<&[u8], char>,
     ('\n')
   )
 );
-named!(name_value,
+named!(name_value<&[u8], Vec<char> >,
   do_parse!(
     take_until!("\"name\"") >>
     tag!("\"name\":") >> // fix so it doesn't take the first 
@@ -222,7 +225,7 @@ named!(step_parse<&[u8], Tweet >,
     get_name: name_value >>
     get_retweets: retweets_value >>
     get_favorites: favorites_value >>
-    (Tweet{text: get_text, name: get_name, retweets: get_retweets, favorites: get_favorites })
+    (Tweet{text: char_vector_to_string(get_text), name: char_vector_to_string(get_name), retweets: get_retweets, favorites: get_favorites })
   )
 );
 named!(big_parser<&[u8], Vec<Tweet> > , many0!(step_parse)); 

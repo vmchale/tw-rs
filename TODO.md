@@ -2,5 +2,5 @@
   - [ ] use something to fix that, i.e.
 - [ ] option to disable color/fancy retweet symbol
 - [ ] parse unicode
-- [ ] oauth-client-rs extra library?
+- [x] oauth-client-rs extra library?
 - [ ] parse stuff aside from unicode(?)

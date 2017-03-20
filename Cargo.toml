@@ -17,9 +17,9 @@ colored = "1.4"
 clap = {version = "2.19", features = ["yaml"]}
 
 [lib]
-name = "libclit"
+name = "tweet"
 path = "src/lib.rs"
 
 [[bin]]
-name = "tweet"
+name = "tw"
 path = "src/main.rs"

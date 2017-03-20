@@ -36,19 +36,19 @@ Then type `cargo install clit-rs`.
 To get your profile, simply type:
 
 ```
-tweet user
+tw user
 ```
 
 To view a user's profile, type e.g.
 
 ```
-tweet user pinepapplesmear
+tw user pinepapplesmear
 ```
 
 ### Sending tweets
 
 ```
-tweet send "YOUR_TWEET_TEXT"
+tw send "YOUR_TWEET_TEXT"
 ```
 
 ### Viewing your timeline
@@ -56,11 +56,11 @@ tweet send "YOUR_TWEET_TEXT"
 You can also use
 
 ```
-tweet view
+tw view
 ```
 
 to view your own timeline.
 
 ## Library
 
-A haskell package is included. It's fairly easy to use once you have the credentials set up, with three functions: one to post a status, one to get your timeline, and one to get a user profile.
+A library is included. It's fairly easy to use once you have the credentials set up, with three functions: one to post a status, one to get your timeline, and one to get a user profile.

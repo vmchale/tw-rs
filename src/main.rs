@@ -1,10 +1,10 @@
 #[macro_use] extern crate clap;
 
 extern crate oauth_client_fix as oauth_client;
-extern crate libclit;
+extern crate tweet;
 extern crate nom;
 
-use libclit::*;
+use tweet::*;
 use clap::App;
 use std::fs::File;
 use std::io::prelude::*;
