@@ -2,6 +2,12 @@
 name = "clit-rs"
 version = "0.1.0"
 authors = ["Vanessa McHale <tmchale@wisc.edu>"]
+license-file = "LICENSE"
+exclude = [ ".gitignore" ]
+readme = "README.md"
+repository = "https://github.com/vmchale/clit-rs"
+documentation = "https://github.com/vmchale/clit-rs#README"
+homepage = "https://github.com/vmchale/clit-rs"
 
 [dependencies]
 oauth-client-fix = "0.1"
