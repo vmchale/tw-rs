@@ -13,6 +13,9 @@ tok: OAUTH_TOKEN_HERE
 tok-sec: TOKEN_SECRET_HERE
 ```
 
+Note that the labels must in the correct order, and separated from the keys with
+whitespace. 
+
 ## Installation
 
 If you're on Linux/Windows the best way is probably to download the binaries
