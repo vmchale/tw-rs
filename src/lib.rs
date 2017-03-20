@@ -5,7 +5,7 @@ extern crate oauth_client_fix as oauth_client;
 extern crate core;
 
 use std::collections::HashMap;
-use nom::{IResult, anychar};
+use nom::{IResult};
 use std::fmt;
 use colored::*;
 use std::str::from_utf8;
@@ -32,11 +32,6 @@ pub fn get_credentials(contents: &str) -> (Token, Token) {
 
 // TODO consider making this a methd?
 // HOT TAKE: oop is just functional programming where composition is backwards
-fn replace_specials(string: &str) -> String {
-    let result = string.replace("\\/", "/").replace("\\n","\n").replace("\\\"","\"");
-    result
-}
-
 fn replace_unicode(string: &str) -> char {
     //let num_int = u32::from_str_radix(&string[2..6], 16)
     let num_int = u32::from_str_radix(&string[0..4], 16)
@@ -219,9 +214,20 @@ named!(favorites_value,
     (value)
   )
 );
+// FIXME make it recursive? or not idk
+named!(skip_mentions,
+  do_parse!(
+    take_until!("\"user_mentions\"") >>
+    tag!("\"user_mentions\":") >>
+    value: alt!(tag!("[]") 
+      | delimited!(tag!("["), take_until!("]"), tag!("]"))) >>
+    (value)
+  )
+);
 named!(step_parse<&[u8], Tweet >,
   do_parse!(
     get_text: text_value >>
+    skip_mentions >>
     get_name: name_value >>
     get_retweets: retweets_value >>
     get_favorites: favorites_value >>
@@ -229,9 +235,6 @@ named!(step_parse<&[u8], Tweet >,
   )
 );
 named!(big_parser<&[u8], Vec<Tweet> > , many0!(step_parse)); 
-//to convert char vector to a string (e.g. for Tweet struct.
-//let v = vec!['a', 'b', 'c', 'd'];
-//let s: String = v.into_iter().collect();
 
 /// Parse a slice of bytes as a vector of tweets
 pub fn parse_tweets(str_in: &[u8]) -> IResult<&[u8], Vec<Tweet>> {

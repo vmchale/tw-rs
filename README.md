@@ -4,7 +4,7 @@
 
 Generate a token to authorize access to your twitter account by following the guide [here](https://dev.twitter.com/oauth/overview/application-owner-access-tokens)
 
-Then place your API keys and OAuth tokens in a file `~/.cred`, separated by a line break:
+Then place your API keys and OAuth tokens in a file (default is `~/.cred`), separated by a line break:
 
 ```
 api-key: API_KEY_HERE
@@ -43,6 +43,12 @@ To view a user's profile, type e.g.
 
 ```
 tw user pinepapplesmear
+```
+
+If you have any problems along the way:
+
+```
+tw --help
 ```
 
 ### Sending tweets
