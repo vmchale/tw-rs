@@ -1,6 +1,7 @@
-- [ ] fix parser so it skips user entities?
-  - [ ] use something to fix that, i.e.
+- [x] fix parser so it skips user entities?
+  - [ ] get RTs correct on quote statuses
 - [ ] option to disable color/fancy retweet symbol
-- [ ] parse unicode
+  - [ ] does Display have a color-free version?
+- [x] parse unicode
 - [x] oauth-client-rs extra library?
-- [ ] parse stuff aside from unicode(?)
+- [ ] put parsers in their own module
