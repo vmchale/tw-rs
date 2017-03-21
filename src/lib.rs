@@ -49,7 +49,7 @@ pub fn get_credentials(contents: &str) -> (Token, Token) {
     (key, token)
 }
 
-
+/// Display the raw JSON of a response, useful for debugging.
 pub fn profile_raw(api_key: Token, token: Token) {
     let mut param = HashMap::new();
     let _ = param.insert("screen_name".into(), "".into());
@@ -142,7 +142,6 @@ pub fn print_timeline(num: u8, api_key: Token, token: Token) {
         println!("Parse error when attempting to read tweet data.");
     }
 }
-
 
 /// urls for the twitter api 
 pub mod api {

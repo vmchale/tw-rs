@@ -5,7 +5,7 @@ extern crate colored;
 
 use std::str::from_utf8;
 use std::fmt;
-use types::colored::Colorize;
+use self::colored::Colorize;
 
 /// Struct encapsulating tweets. Includes the text, name of the user, number of retweets, and
 /// number of favorites. 

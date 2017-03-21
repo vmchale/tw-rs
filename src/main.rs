@@ -3,6 +3,7 @@
 extern crate oauth_client_fix as oauth_client;
 extern crate tweet;
 extern crate nom;
+extern crate colored;
 
 use tweet::*;
 use clap::App;
@@ -10,6 +11,7 @@ use std::fs::File;
 use std::io::prelude::*;
 use std::path::{PathBuf};
 use std::io;
+use colored::*;
 
 fn main() {
 
@@ -39,6 +41,10 @@ fn main() {
     file.read_to_string(&mut contents)
         .expect("File read failed");
     let (key, token) = get_credentials(&contents);
+
+    // print a cute bird
+    let birb = "\u{1F426}".blue();
+    println!("{}\n", birb);
 
     // get user timeline
     if let Some(command) = matches.subcommand_matches("user") {
