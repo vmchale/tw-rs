@@ -93,8 +93,14 @@ fn main() {
             .expect("Failed to read from stdin. Make sure you piped in valid string data!");
         tweet(&buf_in, key, token);
     }
+
+    // print raw bytes from user's profile; useful for debugging
+    else if let Some(_) = matches.subcommand_matches("raw") {
+        profile_raw(key, token);
+    }
+
+    // entered an invalid subcommand
     else {
-        // entered an invalid subcommand
         println!("No command entered, or command failed to parse. Check tweet --help if you need help :)");
     }
 }

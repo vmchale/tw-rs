@@ -50,6 +50,16 @@ pub fn get_credentials(contents: &str) -> (Token, Token) {
 }
 
 
+pub fn profile_raw(api_key: Token, token: Token) {
+    let mut param = HashMap::new();
+    let _ = param.insert("screen_name".into(), "".into());
+    let _ = param.insert("count".into(), "15".into()); // TODO accept number of tweets to get
+    let bytes_raw = oauth_client::get(api::USER_PROFILE, &api_key, Some(&token), Some(&param)).unwrap();
+    // convert vector of u8's to &[u8] (array slice)
+    let resp = String::from_utf8(bytes_raw).unwrap();
+    println!("response:\n{}", resp);
+}
+
 /// Display profile for a given user. Takes screen name and number of tweets to return as
 /// parameters. 
 ///
