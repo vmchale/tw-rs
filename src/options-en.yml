@@ -64,3 +64,13 @@ subcommands:
         about: Get user profile raw (for debugging) 
         version: "0.1.8"
         author: Vanessa McHale <tmchale@wisc.edu>
+    - delete:
+        about: Delete a tweet given its ID
+        version: "0.1.8"
+        author: Vanessa McHale <tmchale@wisc.edu>
+        args:
+            - id:
+                index: 1
+                help: ID of tweet you want to delete
+                value_name: ID
+                required: true

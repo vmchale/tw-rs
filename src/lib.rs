@@ -18,6 +18,7 @@ extern crate core;
 use std::collections::HashMap;
 use oauth_client::Token;
 use nom::IResult;
+use types::Tweet;
 
 pub mod parse;
 pub mod types;
@@ -59,6 +60,26 @@ pub fn profile_raw(api_key: Token, token: Token) {
     let resp = String::from_utf8(bytes_raw).unwrap();
     println!("response:\n{}", resp);
 }
+
+/*
+/// Return profile for a given user. 
+pub fn get_profile<'a>(screen_name: &str, num: u8, api_key: Token, token: Token) -> Result<Vec<Tweet<'a>>,()> {
+    let mut param = HashMap::new();
+    let num_str = num.to_string();
+    let _ = param.insert("screen_name".into(), screen_name.into());
+    let _ = param.insert("count".into(), num_str.into()); // TODO accept number of tweets to get
+    let bytes_raw = oauth_client::get(api::USER_PROFILE, &api_key, Some(&token), Some(&param)).unwrap();
+    // convert vector of u8's to &[u8] (array slice)
+    let bytestring = String::from_utf8(bytes_raw).unwrap();
+    let bytes_slice = bytestring.as_bytes();
+    // parse as an IResult
+    let parsed_maybe = parse::parse_tweets(bytes_slice);
+    match parsed_maybe {
+        IResult::Done(_,parsed) => Ok(parsed),
+        _ => Err(panic!("Tweet failed to parse!")),
+    }
+}
+*/
 
 /// Display profile for a given user. Takes screen name and number of tweets to return as
 /// parameters. 

@@ -14,3 +14,5 @@
   - [x] step 1 is to parse the id string
 - [ ] reply subcommand?
 - [ ] delete? 
+- [ ] "login" guided command? pin-based login? 
+- [ ] benchmark against python/perl/ruby stuff

@@ -9,6 +9,7 @@ use self::colored::Colorize;
 
 /// Struct encapsulating tweets. Includes the text, name of the user, number of retweets, and
 /// number of favorites. 
+#[derive(Clone)]
 pub struct Tweet<'a>{
     pub text: String,
     pub name: String,
