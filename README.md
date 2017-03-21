@@ -1,5 +1,7 @@
 # Command Line Interface Tweeter (rust version)
 
+![Displaying a user's timeline in a terminal.](https://raw.githubusercontent.com/vmchale/clit-rs/master/twitter-rust-screenshot.png)
+
 ## Config
 
 Generate a token to authorize access to your twitter account by following the guide [here](https://dev.twitter.com/oauth/overview/application-owner-access-tokens)
