@@ -7,10 +7,10 @@ use std::str::from_utf8;
 use std::fmt;
 use types::colored::Colorize;
 
+/// Struct encapsulating tweets. Includes the text, name of the user, number of retweets, and
+/// number of favorites. 
 pub struct Tweet<'a>{
-    //pub text: &'a[u8],
     pub text: String,
-    //pub name: &'a[u8],
     pub name: String,
     pub retweets: &'a[u8],
     pub favorites: &'a[u8],

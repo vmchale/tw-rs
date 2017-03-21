@@ -56,3 +56,11 @@ subcommands:
                 #mutiple: true #jk this needs actual quotes ;(
                 # TODO yoko-ono command to actually tweet exactly one thing
                 # also ideally input like haskell tweet
+    - input:
+        about: Tweet text as it comes in from stdin (a pipe)
+        version: "0.1.5"
+        author: Vanessa McHale <tmchale@wisc.edu>
+    - raw:
+        about: Get user profile raw (for debugging) 
+        version: "0.1.5"
+        author: Vanessa McHale <tmchale@wisc.edu>

@@ -90,13 +90,27 @@ named!(favorites_value,
 );
 // FIXME make it recursive? or not idk
 // basically there's an "indices":[2,19] field that might be there
-named!(skip_mentions,
+named!(one_level,
+  do_parse!(
+    value: delimited!(tag!("["), take_until!("]") , tag!("]")) >>
+    (value)
+  )
+);
+named!(innards,
+  do_parse!(
+    value: many1!(one_level) >>
+    (b"shouldn't happen")
+  )
+);
+named!(skip_mentions<&[u8], () >,
   do_parse!(
     take_until!("\"user_mentions\"") >>
     tag!("\"user_mentions\":") >>
-    value: alt!(tag!("[]") 
-      | delimited!(tag!("["), take_until!("]"), tag!("]"))) >>
-    (value)
+    alt!(tag!("[]")
+      | delimited!(tag!("["), innards, tag!("]"))
+      | delimited!(tag!("["), take_until!("]") , tag!("]"))) >> 
+    //last parser shouldn't ever be needed
+    ()
   )
 );
 //TODO also skip first rt if it's a quote status?  

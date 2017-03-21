@@ -1,5 +1,6 @@
 - [x] fix parser so it skips user entities?
   - [ ] get RTs correct on quote statuses
+  - [ ] quote actuall tweet when given a quote status?
 - [ ] option to disable color/fancy retweet symbol
   - [ ] does Display have a color-free version?
 - [x] parse unicode

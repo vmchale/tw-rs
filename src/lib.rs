@@ -1,8 +1,14 @@
 //! This crate provides an executable Command Line Iinterface Tweeter, as well as several functions to return
-//! tweets.
+//! tweets and to tweet. 
 //!
 //! ```c
 //! $ tw send "tweeting from the command line :)"
+//! ```
+//!
+//! If you get stuck:
+//!
+//! ```c
+//! tw --help
 //! ```
 #[macro_use] extern crate nom;
 

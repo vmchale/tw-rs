@@ -9,11 +9,14 @@ use clap::App;
 use std::fs::File;
 use std::io::prelude::*;
 use std::path::{PathBuf};
+use std::io;
 
 fn main() {
+
     // command-line parser
     let yaml = load_yaml!("options-en.yml");
     let matches = App::from_yaml(yaml).get_matches();
+
     // set path to credentials file
     let path_read = matches.value_of("credentials");
     let path = 
@@ -28,6 +31,7 @@ fn main() {
             path_in.push(".cred");
             path_in
         };
+
     // read api keys
     let mut file = File::open(path)
         .expect("File could not be read.");
@@ -35,6 +39,7 @@ fn main() {
     file.read_to_string(&mut contents)
         .expect("File read failed");
     let (key, token) = get_credentials(&contents);
+
     // get user timeline
     if let Some(command) = matches.subcommand_matches("user") {
         if let Some(user) = command.value_of("screen_name") {
@@ -60,6 +65,7 @@ fn main() {
             }
         }
     }
+
     // view timeline
     else if let Some(command) = matches.subcommand_matches("view") {
         if let Some(num) = command.value_of("count") {
@@ -72,11 +78,20 @@ fn main() {
             print_timeline(15, key, token);
         }
     }
+
     // send a tweet
     else if let Some(command) = matches.subcommand_matches("send") {
         let send_str = command.value_of("words")
             .expect("Could not parse user input. Please check the string is correctly formatted");
         tweet(send_str, key, token);
+    }
+
+    // send a tweet from stdin (i.e. a pipe)
+    else if let Some(_) = matches.subcommand_matches("input") {
+        let mut buf_in = String::new();
+        io::stdin().read_to_string(&mut buf_in)
+            .expect("Failed to read from stdin. Make sure you piped in valid string data!");
+        tweet(&buf_in, key, token);
     }
     else {
         // entered an invalid subcommand
