@@ -21,9 +21,7 @@ fn replace_unicode(string: &str) -> char {
         '�'
     }
 }
-// 'char not equal to' parser would be nice!!
 named!(inner_char<&[u8], char>, alt!(unicode_char | special_char | newline_char | none_of!("\\\"")));
-//named!(prefield, take_until!("\",")); // FIXME this mostly works, but should accept quotes too
 named!(prefield<&[u8], Vec<char> >, many0!(inner_char)); 
 named!(field<&[u8], Vec<char> >, delimited!(char!('"'), prefield, char!('"')));
 named!(int_field, take_until!(","));
@@ -32,6 +30,15 @@ named!(text_value<&[u8], Vec <char> >,
     take_until!("\"text\"") >>
     tag!("\"text\":") >>
     value: field >>
+    (value)
+  )
+);
+named!(skip_quote_status,
+  do_parse!(
+    take_until!("\"is_quote_status\"") >>
+    tag!("\"is_quote_status\":true") >>
+    value: take!(1) >> 
+    retweets_value >>
     (value)
   )
 );
@@ -52,7 +59,7 @@ named!(special_char<&[u8], char>,
 );
 named!(newline_char<&[u8], char>,
   do_parse!(
-    tag!("\\\n") >>
+    tag!("\\n") >>
     ('\n')
   )
 );
@@ -69,14 +76,6 @@ named!(retweets_value,
     take_until!("\"retweet_count\"") >>
     tag!("\"retweet_count\":") >>
     value: int_field >>
-    (value)
-  )
-);
-named!(is_quote,
-  do_parse!(
-    take_until!("\"is_quote_status\"") >>
-    tag!("\"is_quote_status\":") >>
-    value: take!(4) >>
     (value)
   )
 );
@@ -105,7 +104,7 @@ named!(step_parse<&[u8], Tweet >,
     get_text: text_value >>
     skip_mentions >>
     get_name: name_value >>
-    quote: is_quote >>
+    opt!(skip_quote_status) >>
     get_retweets: retweets_value >>
     get_favorites: favorites_value >>
     (Tweet{text: char_vector_to_string(get_text), name: char_vector_to_string(get_name), retweets: get_retweets, favorites: get_favorites })
