@@ -1,5 +1,6 @@
 - [x] fix parser so it skips user entities?
-  - [ ] get RTs correct on quote statuses
+  - [ ] fix 
+  - [x] get RTs correct on quote statuses
   - [ ] quote actuall tweet when given a quote status?
 - [ ] option to disable color/fancy retweet symbol
   - [ ] does Display have a color-free version?
@@ -7,7 +8,9 @@
 - [x] oauth-client-rs extra library?
 - [x] screenshots for readme
 - [ ] write something on contributions
-- [ ] put parsers in their own module
-- [ ] separate functions to return tweets vs. print them.
+- [x] put parsers in their own module
+- [x] separate functions to return tweets vs. print them.
 - [ ] threading etc. with getting id string?
+  - [x] step 1 is to parse the id string
 - [ ] reply subcommand?
+- [ ] delete? 

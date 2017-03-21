@@ -135,7 +135,7 @@ pub fn print_timeline(num: u8, api_key: Token, token: Token) {
     let parsed_maybe = parse::parse_tweets(bytes_slice);
     if let IResult::Done(_,parsed) = parsed_maybe {
         for i in 0..parsed.len() {
-            println!("{}", parsed[i]);
+            println!("{:?}", parsed[i]);
         }
     }
     else {

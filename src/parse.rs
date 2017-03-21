@@ -33,6 +33,14 @@ named!(text_value<&[u8], Vec <char> >,
     (value)
   )
 );
+named!(tweet_id,
+  do_parse!(
+    take_until!("\"id\":") >>
+    tag!("\"id\":") >>
+    num_value: take_until!(",") >>
+    (num_value)
+  )
+);
 named!(skip_quote_status,
   do_parse!(
     take_until!("\"is_quote_status\"") >>
@@ -101,13 +109,14 @@ named!(skip_mentions<&[u8], () >,
 //TODO also skip first rt if it's a quote status?  
 named!(step_parse<&[u8], Tweet >,
   do_parse!(
+    get_id: tweet_id >>
     get_text: text_value >>
     skip_mentions >>
     get_name: name_value >>
     opt!(skip_quote_status) >>
     get_retweets: retweets_value >>
     get_favorites: favorites_value >>
-    (Tweet{text: char_vector_to_string(get_text), name: char_vector_to_string(get_name), retweets: get_retweets, favorites: get_favorites })
+    (Tweet{text: char_vector_to_string(get_text), name: char_vector_to_string(get_name), retweets: get_retweets, favorites: get_favorites, id: get_id })
   )
 );
 named!(big_parser<&[u8], Vec<Tweet> > , many0!(step_parse)); 
