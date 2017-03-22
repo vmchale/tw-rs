@@ -12,10 +12,11 @@
 - [x] separate functions to return tweets vs. print them.
 - [ ] threading etc. with getting id string?
   - [x] step 1 is to parse the id string
-- [ ] reply subcommand?
-- [ ] delete? 
+- [x] reply subcommand?
+- [x] delete? 
 - [ ] "login" guided command? pin-based login? 
 - [ ] benchmark against python/perl/ruby stuff
-- [ ] travis ci like alacritty has?
+- [x] travis ci
 - [ ] consider making quote tweets easier?
-- [ ] move CLI parser/use macro
+- [ ] move CLI parser/use macro no yaml
+- [ ] add fr/de(/dk/is)
