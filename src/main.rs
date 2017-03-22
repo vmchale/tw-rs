@@ -34,6 +34,9 @@ fn main() {
             path_in
         };
 
+    // decide whether to print ids
+    let show_ids  = matches.occurrences_of("show") == 1 ;
+
     // read api keys
     let mut file = File::open(path)
         .expect("File could not be read.");
@@ -52,22 +55,22 @@ fn main() {
             if let Some(num) = command.value_of("count") {
                 let num_int = num.parse::<u8>()
                     .expect("Please enter a positive whole number");
-                print_profile(user, num_int, key, token);
+                print_profile(user, num_int, show_ids, key, token);
             }
             else {
                 // default is to fetch 8 tweets from the profile
-                print_profile(user, 8, key, token);
+                print_profile(user, 8, show_ids, key, token);
             }
         }
         else {
             if let Some(num) = command.value_of("count") {
                 let num_int = num.parse::<u8>()
                     .expect("Please enter a positive whole number");
-                print_profile("", num_int, key, token);
+                print_profile("", num_int, show_ids, key, token);
             }
             else {
                 // this will return the user's own profile
-                print_profile("", 8, key, token); 
+                print_profile("", 8, show_ids, key, token); 
             }
         }
     }
@@ -77,11 +80,11 @@ fn main() {
         if let Some(num) = command.value_of("count") {
             let num_int = num.parse::<u8>()
                 .expect("Please enter a positive whole number");
-            print_timeline(num_int, key, token);
+            print_timeline(num_int, show_ids, key, token);
         }
         else {
             // default is to fetch 15 tweets from the user's timeline
-            print_timeline(15, key, token);
+            print_timeline(15, show_ids, key, token);
         }
     }
 
@@ -98,6 +101,24 @@ fn main() {
         io::stdin().read_to_string(&mut buf_in)
             .expect("Failed to read from stdin. Make sure you piped in valid string data!");
         tweet(&buf_in, key, token);
+    }
+
+    // delete a tweet
+    else if let Some(command) = matches.subcommand_matches("delete") {
+        let num = command.value_of("id")
+            .expect("parse of command line options failed.");
+        let num_int = num.parse::<u64>()
+            .expect("Please enter a positive whole number");
+        delete_tweet(num_int, key, token);
+    }
+
+    // retweet a tweet
+    else if let Some(command) = matches.subcommand_matches("delete") {
+        let num = command.value_of("id")
+            .expect("parse of command line options failed.");
+        let num_int = num.parse::<u64>()
+            .expect("Please enter a positive whole number");
+        delete_tweet(num_int, key, token);
     }
 
     // print raw bytes from user's profile; useful for debugging

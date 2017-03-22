@@ -18,7 +18,6 @@ extern crate core;
 use std::collections::HashMap;
 use oauth_client::Token;
 use nom::IResult;
-use types::Tweet;
 
 pub mod parse;
 pub mod types;
@@ -82,16 +81,16 @@ pub fn get_profile<'a>(screen_name: &str, num: u8, api_key: Token, token: Token)
 */
 
 /// Display profile for a given user. Takes screen name and number of tweets to return as
-/// parameters. 
+/// parameters. Boolean argument is whether to print out user ids. 
 ///
 /// Note that Twitter's API allow for a maximum of 3200 tweets at a time by this method. 
 ///
 /// # Examples
 /// 
 /// ```
-/// print_profile(realDonaldTrump, 100, API_KEY, TOKEN);
+/// print_profile(realDonaldTrump, 100, false, API_KEY, TOKEN);
 /// ```
-pub fn print_profile(screen_name: &str, num: u8, api_key: Token, token: Token) {
+pub fn print_profile(screen_name: &str, num: u8, show_ids: bool, api_key: Token, token: Token) {
     let mut param = HashMap::new();
     let num_str = num.to_string();
     let _ = param.insert("screen_name".into(), screen_name.into());
@@ -103,7 +102,13 @@ pub fn print_profile(screen_name: &str, num: u8, api_key: Token, token: Token) {
     let parsed_maybe = parse::parse_tweets(bytes_slice);
     if let IResult::Done(_,parsed) = parsed_maybe {
         for i in 0..parsed.len() {
-            println!("{}", parsed[i]);
+            if show_ids {
+                println!("{:?}", parsed[i]);
+            }
+            else
+            {
+                println!("{}", parsed[i]);
+            }
         }
     }
     else {
@@ -125,6 +130,7 @@ pub fn tweet(sent_text: &str, api_key: Token, token: Token) {
     let resp = String::from_utf8(bytes_raw).unwrap();
     let bytes_slice = resp.as_bytes();
     let parsed_maybe = parse::parse_tweets(bytes_slice);
+    // FIXME just pop it off so it's faster? we only want one.
     if let IResult::Done(_,parsed) = parsed_maybe {
         for i in 0..parsed.len() {
             println!("{}", parsed[i]);
@@ -136,16 +142,16 @@ pub fn tweet(sent_text: &str, api_key: Token, token: Token) {
 }
 
 /// Display timeline. Takes number of tweets to return as
-/// a parameter. 
+/// a parameter. Second argument is whether to display the id of the tweets.
 ///
 /// Note that Twitter's API allow for a maximum of 3200 tweets at a time by this method. 
 ///
 /// # Examples
 /// 
 /// ```
-/// print_timeline(5, API_KEY, TOKEN);
+/// print_timeline(5, false, API_KEY, TOKEN);
 /// ```
-pub fn print_timeline(num: u8, api_key: Token, token: Token) {
+pub fn print_timeline(num: u8, show_ids:bool, api_key: Token, token: Token) {
     let num_str = num.to_string();
     let mut param = HashMap::new();
     let _ = param.insert("count".into(), num_str.into()); 
@@ -156,7 +162,13 @@ pub fn print_timeline(num: u8, api_key: Token, token: Token) {
     let parsed_maybe = parse::parse_tweets(bytes_slice);
     if let IResult::Done(_,parsed) = parsed_maybe {
         for i in 0..parsed.len() {
-            println!("{}", parsed[i]);
+            if show_ids {
+                println!("{:?}", parsed[i]);
+            }
+            else
+            {
+                println!("{}", parsed[i]);
+            }
         }
     }
     else {
@@ -164,9 +176,29 @@ pub fn print_timeline(num: u8, api_key: Token, token: Token) {
     }
 }
 
+/// Delete a tweet by its id
+pub fn delete_tweet(num: u64, api_key: Token, token: Token) {
+	let num_str = num.to_string();
+	let url = api::DELETE.to_string() + num_str.as_str() + ".json";
+	let _ = oauth_client::post(url.as_str(), &api_key, Some(&token), None).unwrap();
+	// we don't really care about the return value - TODO better message
+	println!("Tweet deleted successfully!");
+}
+	
+/// Rewteet a tweet by its id
+pub fn retweet(num: u64, api_key: Token, token: Token) {
+	let num_str = num.to_string();
+	let url = api::RETWEET.to_string() + num_str.as_str() + ".json";
+	let _ = oauth_client::post(url.as_str(), &api_key, Some(&token), None).unwrap();
+	// we don't really care about the return value - TODO better message
+	println!("Tweet retweeted successfully!");
+}
+
 /// urls for the twitter api 
 pub mod api {
     pub const USER_PROFILE: &'static str = "https://api.twitter.com/1.1/statuses/user_timeline.json";
     pub const TIMELINE: &'static str = "https://api.twitter.com/1.1/statuses/home_timeline.json";
     pub const STATUS_UPDATE: &'static str = "https://api.twitter.com/1.1/statuses/update.json";
+    pub const RETWEET: &'static str = "https://api.twitter.com/1.1/statuses/retweet/";
+    pub const DELETE: &'static str = "https://api.twitter.com/1.1/statuses/destroy/";
 }

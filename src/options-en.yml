@@ -1,5 +1,5 @@
 name: Command Line Interface Tweeter
-version: "0.1.8"
+version: "0.1.9"
 author: Vanessa McHale <tmchale@wisc.edu>
 about: Tweet and view tweets from the command line. 
 args:
@@ -9,19 +9,19 @@ args:
         value_name: CREDENTIALS
         help: Path to file containing your credentials.
         takes_value: true
+    - show:
+        short: d
+        long: show-ids
+        help: Show ids alongside tweets
 subcommands:
     - user:
         about: View a user's profile
-        version: "0.1.8"
+        version: "0.1.9"
         author: Vanessa McHale <tmchale@wisc.edu>
         args:
             - screen_name:
                 help: Screen name of user
                 index: 1
-            - color:
-                short: l
-                long: color
-                help: turn on color
             - count: 
                 short: n
                 long: count
@@ -30,13 +30,9 @@ subcommands:
                 help: Number of tweets to fetch (default 8)
     - view:
         about: View a user's timeline 
-        version: "0.1.8"
+        version: "0.1.9"
         author: Vanessa McHale <tmchale@wisc.edu>
         args:
-            - color:
-                short: l
-                long: color
-                help: turn on color
             - count: 
                 short: n
                 long: count
@@ -45,7 +41,7 @@ subcommands:
                 help: Number of tweets to fetch (default 15)
     - send:
         about: Tweet text
-        version: "0.1.8"
+        version: "0.1.9"
         author: Vanessa McHale <tmchale@wisc.edu>
         args:
             - words:
@@ -58,19 +54,29 @@ subcommands:
                 # also ideally input like haskell tweet
     - input:
         about: Tweet text as it comes in from stdin (a pipe)
-        version: "0.1.8"
+        version: "0.1.9"
         author: Vanessa McHale <tmchale@wisc.edu>
     - raw:
         about: Get user profile raw (for debugging) 
-        version: "0.1.8"
+        version: "0.1.9"
         author: Vanessa McHale <tmchale@wisc.edu>
     - delete:
         about: Delete a tweet given its ID
-        version: "0.1.8"
+        version: "0.1.9"
         author: Vanessa McHale <tmchale@wisc.edu>
         args:
             - id:
                 index: 1
                 help: ID of tweet you want to delete
+                value_name: ID
+                required: true
+    - rt:
+        about: Retweet a tweet given its ID
+        version: "0.1.9"
+        author: Vanessa McHale <tmchale@wisc.edu>
+        args:
+            - id:
+                index: 1
+                help: ID of tweet you want to retweet
                 value_name: ID
                 required: true

@@ -98,6 +98,17 @@ $ tw view
 
 to view your own timeline.
 
+### Features
+  - [x] tweet
+  - [x] view timeline
+  - [x] view user profiles
+  - [x] output with id of tweet
+  - [x] delete tweet
+  - [x] retweet
+  - [ ] reply to tweet
+  - [ ] quote tweet
+  - [ ] display quoted tweets alongside
+
 ## Coloring
 
 clit-rs respects the [CLICOLOR behavior](http://bixense.com/clicolors/) defined here.
