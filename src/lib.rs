@@ -130,11 +130,33 @@ pub fn tweet(sent_text: &str, api_key: Token, token: Token) {
     let resp = String::from_utf8(bytes_raw).unwrap();
     let bytes_slice = resp.as_bytes();
     let parsed_maybe = parse::parse_tweets(bytes_slice);
+    if let IResult::Done(_,parsed) = parsed_maybe {
+        println!("{}", parsed[0]);
+    }
+    else {
+        println!("Parse error when attempting to read tweet data.");
+    }
+}
+
+/// Reply to a tweet
+///
+/// # Examples
+///
+/// ```
+/// reply("@friend that sounds like a good idea!", 844370958781579265, API_KEY, TOKEN);
+/// ```
+pub fn reply(sent_text: &str, reply_to: u64, api_key: Token, token: Token) {
+    let mut param = HashMap::new();
+    let reply_to_str = reply_to.to_string();
+    let _ = param.insert("status".into(), sent_text.into());
+    let _ = param.insert("in_reply_to_status_id".into(), reply_to_str.into());
+    let bytes_raw = oauth_client::post(api::STATUS_UPDATE, &api_key, Some(&token), Some(&param)).unwrap();
+    let resp = String::from_utf8(bytes_raw).unwrap();
+    let bytes_slice = resp.as_bytes();
+    let parsed_maybe = parse::parse_tweets(bytes_slice);
     // FIXME just pop it off so it's faster? we only want one.
     if let IResult::Done(_,parsed) = parsed_maybe {
-        for i in 0..parsed.len() {
-            println!("{}", parsed[i]);
-        }
+        println!("{}", parsed[0]);
     }
     else {
         println!("Parse error when attempting to read tweet data.");

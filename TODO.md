@@ -16,3 +16,6 @@
 - [ ] delete? 
 - [ ] "login" guided command? pin-based login? 
 - [ ] benchmark against python/perl/ruby stuff
+- [ ] travis ci like alacritty has?
+- [ ] consider making quote tweets easier?
+- [ ] move CLI parser/use macro

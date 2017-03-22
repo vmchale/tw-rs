@@ -112,13 +112,24 @@ fn main() {
         delete_tweet(num_int, key, token);
     }
 
+    // reply to a tweet
+    else if let Some(command) = matches.subcommand_matches("reply") {
+        let send_str = command.value_of("words")
+            .expect("Could not parse user input. Please check the string is correctly formatted");
+        let num = command.value_of("id")
+            .expect("parse of command line options failed."); // FIXME user the better message
+        let num_int = num.parse::<u64>()
+            .expect("Please enter a positive whole number");
+        reply(send_str, num_int, key, token);
+    }
+
     // retweet a tweet
-    else if let Some(command) = matches.subcommand_matches("delete") {
+    else if let Some(command) = matches.subcommand_matches("rt") {
         let num = command.value_of("id")
             .expect("parse of command line options failed.");
         let num_int = num.parse::<u64>()
             .expect("Please enter a positive whole number");
-        delete_tweet(num_int, key, token);
+        retweet(num_int, key, token);
     }
 
     // print raw bytes from user's profile; useful for debugging
@@ -128,6 +139,6 @@ fn main() {
 
     // entered an invalid subcommand
     else {
-        println!("No command entered, or command failed to parse. Check tweet --help if you need help :)");
+        println!("No command entered, or command failed to parse. Check tw --help if you need help :)");
     }
 }

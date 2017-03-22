@@ -1,5 +1,5 @@
 name: Command Line Interface Tweeter
-version: "0.1.9"
+version: "0.1.10"
 author: Vanessa McHale <tmchale@wisc.edu>
 about: Tweet and view tweets from the command line. 
 args:
@@ -16,7 +16,7 @@ args:
 subcommands:
     - user:
         about: View a user's profile
-        version: "0.1.9"
+        version: "0.1.10"
         author: Vanessa McHale <tmchale@wisc.edu>
         args:
             - screen_name:
@@ -30,7 +30,7 @@ subcommands:
                 help: Number of tweets to fetch (default 8)
     - view:
         about: View a user's timeline 
-        version: "0.1.9"
+        version: "0.1.10"
         author: Vanessa McHale <tmchale@wisc.edu>
         args:
             - count: 
@@ -41,7 +41,7 @@ subcommands:
                 help: Number of tweets to fetch (default 15)
     - send:
         about: Tweet text
-        version: "0.1.9"
+        version: "0.1.10"
         author: Vanessa McHale <tmchale@wisc.edu>
         args:
             - words:
@@ -54,15 +54,15 @@ subcommands:
                 # also ideally input like haskell tweet
     - input:
         about: Tweet text as it comes in from stdin (a pipe)
-        version: "0.1.9"
+        version: "0.1.10"
         author: Vanessa McHale <tmchale@wisc.edu>
     - raw:
         about: Get user profile raw (for debugging) 
-        version: "0.1.9"
+        version: "0.1.10"
         author: Vanessa McHale <tmchale@wisc.edu>
     - delete:
         about: Delete a tweet given its ID
-        version: "0.1.9"
+        version: "0.1.10"
         author: Vanessa McHale <tmchale@wisc.edu>
         args:
             - id:
@@ -72,11 +72,26 @@ subcommands:
                 required: true
     - rt:
         about: Retweet a tweet given its ID
-        version: "0.1.9"
+        version: "0.1.10"
         author: Vanessa McHale <tmchale@wisc.edu>
         args:
             - id:
                 index: 1
                 help: ID of tweet you want to retweet
                 value_name: ID
+                required: true
+    - reply:
+        about: Reply to a tweet given by its id
+        version: "0.1.10"
+        author: Vanessa McHale <tmchale@wisc.edu>
+        args:
+            - id:
+                index: 1
+                help: ID of tweet you want to retweet
+                value_name: ID
+                required: true
+            - words:
+                index: 2
+                help: Text to tweet
+                value_name: WORDS
                 required: true

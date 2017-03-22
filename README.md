@@ -79,7 +79,7 @@ $ tw user pinepapplesmear
 If you have any problems along the way:
 
 ```bash
-$ tw --help
+$ tw help
 ```
 
 ### Sending tweets
@@ -105,8 +105,7 @@ to view your own timeline.
   - [x] output with id of tweet
   - [x] delete tweet
   - [x] retweet
-  - [ ] reply to tweet
-  - [ ] quote tweet
+  - [x] reply to tweet
   - [ ] display quoted tweets alongside
 
 ## Coloring
