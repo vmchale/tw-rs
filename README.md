@@ -1,5 +1,7 @@
 # Command Line Interface Tweeter (rust version)
 
+[![Build Status](https://travis-ci.org/vmchale/clit-rs.svg?branch=master)](https://travis-ci.org/vmchale/clit-rs)
+
 Screenshot in alacritty:
 
 ![Displaying a user's timeline in a terminal.](https://raw.githubusercontent.com/vmchale/clit-rs/master/twitter-rust-screenshot.png)
