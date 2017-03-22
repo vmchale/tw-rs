@@ -1,0 +1,16 @@
+language: rust
+sudo: false
+
+cache: cargo
+
+os:
+  - linux
+  - osx
+  - windows
+
+rust:
+  - stable
+
+script:
+  - cargo build
+  - cargo doc
