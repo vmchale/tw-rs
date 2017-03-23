@@ -4,7 +4,7 @@
 
 Screenshot in alacritty:
 
-![Displaying a user's timeline in a terminal.](https://raw.githubusercontent.com/vmchale/tw-rs/master/twitter-rust-screenshot.png)
+![Displaying a user's timeline in a terminal.](https://raw.githubusercontent.com/vmchale/clit-rs/master/twitter-rust-screenshot.png)
 
 The rust version of this tool is somewhat faster than its [haskell
 counterpart](https://github.com/vmchale/command-line-tweeter), but the haskell
