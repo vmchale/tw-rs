@@ -128,9 +128,9 @@ the fastest.
 | ---- | -------- | ------------ | ----------- | ------------------ | ---------- |
 | tw | Rust | x |   | x | x |
 | rainbowstream | Python | x | x |  |  |
-| oysttyer | Perl |  | x |  | > |
+| oysttyer | Perl |  | x |  | ½ |
 | tweet-hs | Haskell | x |  | x | x |
-| t | Ruby | > |  |  | x |
+| t | Ruby | ½ |  |  | x |
 
 #### Screenshots in alacritty
 
@@ -140,7 +140,7 @@ the fastest.
 
 ##### t
 
-![Displaying a user's timeline in a terminal.](https://raw.githubusercontent.com/vmchale/clit-rs/master/screenshots/rubytt.png)
+![Displaying a user's timeline in a terminal.](https://raw.githubusercontent.com/vmchale/clit-rs/master/screenshots/rubyt.png)
 
 ##### rainbowstream
 
