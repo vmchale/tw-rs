@@ -31,6 +31,7 @@ Reasons not to use tw-rs:
   - You want to extend your tools in [haskell](https://github.com/vmchale/command-line-tweeter)
   - You want "twitter in a terminal" that [rainbowtools](https://github.com/DTVD/rainbowstream)
     or [oysttyer](https://github.com/oysttyer/oysttyer) provides. 
+  - You want to be able to easily tweet emoji
 
 ## Config
 
@@ -132,7 +133,7 @@ the fastest.
 | tweet-hs | Haskell | x |  | x | x |  |
 | t | Ruby | ½ |  |  | x |  |
 
-#### Screenshots in alacritty
+#### Screenshots (alacritty + solarized dark)
 
 ##### tw
 
