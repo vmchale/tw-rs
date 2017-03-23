@@ -10,11 +10,6 @@ repository = "https://github.com/vmchale/clit-rs"
 documentation = "https://github.com/vmchale/clit-rs#README"
 homepage = "https://github.com/vmchale/clit-rs"
 
-build = "build.rs"
-
-[build-dependencies]
-clap = "2.19"
-
 [dependencies]
 oauth-client-fix = "0.1"
 nom = "2.1"

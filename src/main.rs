@@ -14,7 +14,7 @@ use std::io;
 use colored::*;
 
 fn main() {
-
+    
     // command-line parser
     let yaml = load_yaml!("options-en.yml");
     let matches = App::from_yaml(yaml).get_matches();

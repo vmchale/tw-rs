@@ -20,3 +20,4 @@
 - [ ] consider making quote tweets easier?
 - [ ] move CLI parser/use macro no yaml
 - [ ] add fr/de(/dk/is)
+- [ ] bash completions/macro-based over yaml
