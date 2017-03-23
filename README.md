@@ -112,7 +112,7 @@ to view your own timeline.
   - [x] fav/unfav tweets
   - [ ] follow/unfollow users
   - [ ] fetch mentions
-  - [ ] 
+  - [ ] block accounts
   - [ ] tweet an image
   - [ ] display quoted tweets alongside
 
