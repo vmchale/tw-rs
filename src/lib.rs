@@ -231,23 +231,56 @@ pub fn print_timeline(num: u8, show_ids:bool, api_key: Token, token: Token) {
 }
 
 /// Delete a tweet by its id
-pub fn delete_tweet(num: u64, api_key: Token, token: Token) {
-	let num_str = num.to_string();
-	let url = api::DELETE.to_string() + num_str.as_str() + ".json";
+pub fn delete_tweet(tweet_id: u64, api_key: Token, token: Token) {
+	let tweet_id_str = tweet_id.to_string();
+	let url = api::DELETE.to_string() + tweet_id_str.as_str() + ".json";
 	let _ = oauth_client::post(url.as_str(), &api_key, Some(&token), None).unwrap();
 	// we don't really care about the return value - TODO better message
 	println!("Tweet deleted successfully!");
 }
 	
 /// Rewteet a tweet by its id
-pub fn retweet(num: u64, api_key: Token, token: Token) {
-	let num_str = num.to_string();
-	let url = api::RETWEET.to_string() + num_str.as_str() + ".json";
+pub fn retweet(tweet_id: u64, api_key: Token, token: Token) {
+	let tweet_id_str = tweet_id.to_string();
+	let url = api::RETWEET.to_string() + tweet_id_str.as_str() + ".json";
 	let _ = oauth_client::post(url.as_str(), &api_key, Some(&token), None).unwrap();
 	// we don't really care about the return value - TODO better message
 	println!("Tweet retweeted successfully!");
 }
 
+/// Favorite a tweet by its id
+pub fn favorite_tweet(tweet_id: u64, api_key: Token, token: Token) {
+	let tweet_id_str = tweet_id.to_string();
+    let mut param = HashMap::new();
+    let _ = param.insert("id".into(), tweet_id_str.into());
+    let bytes_raw = oauth_client::post(api::FAVORITE, &api_key, Some(&token), Some(&param)).unwrap();
+    let resp = String::from_utf8(bytes_raw).unwrap(); // FIXME if this fails it's likely because it was already favorited
+    let bytes_slice = resp.as_bytes();
+    let parsed_maybe = parse::parse_tweets(bytes_slice);
+    if let IResult::Done(_,parsed) = parsed_maybe {
+        println!("{}\n    Favorited", parsed[0]);
+    }
+    else {
+        println!("Parse error when attempting to read tweet data.");
+    }
+}
+
+/// Unfavorite a tweet by its id
+pub fn unfavorite_tweet(tweet_id: u64, api_key: Token, token: Token) {
+	let tweet_id_str = tweet_id.to_string();
+    let mut param = HashMap::new();
+    let _ = param.insert("id".into(), tweet_id_str.into());
+    let bytes_raw = oauth_client::post(api::UNFAVORITE, &api_key, Some(&token), Some(&param)).unwrap(); // FIXME if this fails it's likely because it wasn't already favorited
+    let resp = String::from_utf8(bytes_raw).unwrap();
+    let bytes_slice = resp.as_bytes();
+    let parsed_maybe = parse::parse_tweets(bytes_slice);
+    if let IResult::Done(_,parsed) = parsed_maybe {
+        println!("{}\n    Unfavorited", parsed[0]);
+    }
+    else {
+        println!("Parse error when attempting to read tweet data.");
+    }
+}
 /// urls for the twitter api 
 pub mod api {
     pub const USER_PROFILE: &'static str = "https://api.twitter.com/1.1/statuses/user_timeline.json";
@@ -256,4 +289,6 @@ pub mod api {
     pub const RETWEET: &'static str = "https://api.twitter.com/1.1/statuses/retweet/";
     pub const DELETE: &'static str = "https://api.twitter.com/1.1/statuses/destroy/";
     pub const UPLOAD: &'static str = "https://upload.twitter.com/1.1/media/upload.json";
+    pub const FAVORITE: &'static str = "https://api.twitter.com/1.1/favorites/create.json";
+    pub const UNFAVORITE: &'static str = "https://api.twitter.com/1.1/favorites/destroy.json";
 }

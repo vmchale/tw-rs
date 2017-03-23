@@ -132,6 +132,25 @@ fn main() {
         retweet(num_int, key, token);
     }
 
+    // favorite a tweet
+    else if let Some(command) = matches.subcommand_matches("fav") {
+        let num = command.value_of("id")
+            .expect("parse of command line options failed.");
+        let num_int = num.parse::<u64>()
+            .expect("Please enter a positive whole number");
+        favorite_tweet(num_int, key, token);
+    }
+
+    // unfavorite a tweet
+    else if let Some(command) = matches.subcommand_matches("ufav") {
+        let num = command.value_of("id")
+            .expect("parse of command line options failed.");
+        let num_int = num.parse::<u64>()
+            .expect("Please enter a positive whole number");
+        unfavorite_tweet(num_int, key, token);
+    }
+
+    // print raw bytes from user's profile; useful for debugging
     // print raw bytes from user's profile; useful for debugging
     else if let Some(_) = matches.subcommand_matches("raw") {
         profile_raw(key, token);

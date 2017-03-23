@@ -12,7 +12,7 @@ one has a couple more features.
 
 Reasons to use tw-rs:
   - Faster than other tools ([t](https://github.com/sferik/t), [rainbowstream](https://github.com/DTVD/rainbowstream)
-  ,[clit](https://github.com/vmchale/command-line-tweeter)
+  ,[tweet-hs](https://github.com/vmchale/command-line-tweeter)
   ,[oysttyer](https://github.com/oysttyer/oysttyer))
   - Lightweight (5MB, low CPU/memory usage)
   - Unobtrusive
@@ -108,8 +108,8 @@ to view your own timeline.
   - [x] delete tweet
   - [x] retweet
   - [x] reply to tweet
+  - [x] fav/unfav tweets
   - [ ] tweet an image
-  - [ ] fav/unfav tweets
   - [ ] display quoted tweets alongside
 
 ## Coloring

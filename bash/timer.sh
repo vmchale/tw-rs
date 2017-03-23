@@ -31,7 +31,7 @@ time(
         t timeline hung_pope > /dev/null
     done
     )
-sleep 60
+sleep 15
 time(
     printf "Rust's tw\n"
     # ping once so it's fair
@@ -41,7 +41,7 @@ time(
         tw user -n20 > /dev/null 
     done
     )
-sleep 60
+sleep 15
 time(
     printf "Haskell's tweet\n"
     # ping once so it's fair
@@ -52,4 +52,4 @@ time(
         tweet user hung_pope -n20 --color > /dev/null
     done
     )
-sleep 60
+sleep 15

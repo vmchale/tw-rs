@@ -80,6 +80,26 @@ subcommands:
                 help: ID of tweet you want to retweet
                 value_name: ID
                 required: true
+    - fav:
+        about: Favorite a tweet given its ID
+        version: "0.1.13"
+        author: Vanessa McHale <tmchale@wisc.edu>
+        args:
+            - id:
+                index: 1
+                help: ID of tweet you want to favorite
+                value_name: ID
+                required: true
+    - ufav:
+        about: Unfavorite a tweet given its ID
+        version: "0.1.13"
+        author: Vanessa McHale <tmchale@wisc.edu>
+        args:
+            - id:
+                index: 1
+                help: ID of tweet you want to unfavorite
+                value_name: ID
+                required: true
     - reply:
         about: Reply to a tweet given by its id
         version: "0.1.13"
