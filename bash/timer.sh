@@ -1,6 +1,7 @@
 #!/bin/bash
 
-# This is just to be able to gauge things; it's not a super-rigorous benchmark
+# This is just to be able to gauge the oreder things; it's not a super-rigorous benchmark.
+# Times aren't really repoducible, but the order they fall in is.
 
 # Check they're all on the path
 path_to_t=$(which t)
@@ -60,9 +61,6 @@ time(
         echo '/again hung_pope' | perl oysttyer.pl > /dev/null
     done
     )
-# TODO add perl? hm
-# echo '/again hung_pope' | perl oysttyer/oysttyer.pl
-
 # TODO fav/ufav a tweet
 # tw fav 844035859674529793
 # tw ufav 844035859674529793

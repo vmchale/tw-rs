@@ -60,7 +60,7 @@ subcommands:
         about: Get user profile raw (for debugging) 
         version: "0.1.14"
         author: Vanessa McHale <tmchale@wisc.edu>
-    - delete:
+    - del:
         about: Delete a tweet given its ID
         version: "0.1.14"
         author: Vanessa McHale <tmchale@wisc.edu>

@@ -101,6 +101,7 @@ $ tw view
 to view your own timeline.
 
 ### Features
+
   - [x] tweet
   - [x] view timeline
   - [x] view user profiles
@@ -109,6 +110,9 @@ to view your own timeline.
   - [x] retweet
   - [x] reply to tweet
   - [x] fav/unfav tweets
+  - [ ] follow/unfollow users
+  - [ ] fetch mentions
+  - [ ] 
   - [ ] tweet an image
   - [ ] display quoted tweets alongside
 
@@ -118,15 +122,37 @@ In the `bash` directory you will find a script that times tw-rs, tweet-hs,
 oysttyer, and t fetching tweets. On linux, it consistently places `tw` as
 the fastest.
 
-### Comparison
+### Comparison to other command-line clients
 
-| Tool | Language | Color output | Twitter in a terminal | Vim plugin support |
-| ---- | -------- | ------------ | --------------------- | ------------------ |
-| tw | Rust | x |   | x |
-| rainbowstream | Python | x | x |  |
-| oysttyer | Perl |  | x |  |
-| tweet-hs | Haskell | x |  | x |
-| t | Ruby | > |  |  |
+| Tool | Language | Color output | Interactive | Vim plugin support | Scriptable |
+| ---- | -------- | ------------ | ----------- | ------------------ | ---------- |
+| tw | Rust | x |   | x | x |
+| rainbowstream | Python | x | x |  |  |
+| oysttyer | Perl |  | x |  | > |
+| tweet-hs | Haskell | x |  | x | x |
+| t | Ruby | > |  |  | x |
+
+#### Screenshots in alacritty
+
+##### tw
+
+![Displaying a user's timeline in a terminal.](https://raw.githubusercontent.com/vmchale/clit-rs/master/screenshots/rusttw.png)
+
+##### t
+
+![Displaying a user's timeline in a terminal.](https://raw.githubusercontent.com/vmchale/clit-rs/master/screenshots/rubytt.png)
+
+##### rainbowstream
+
+![Displaying a user's timeline in a terminal.](https://raw.githubusercontent.com/vmchale/clit-rs/master/screenshots/pythonrainbowstream.png)
+
+##### tweet
+
+![Displaying a user's timeline in a terminal.](https://raw.githubusercontent.com/vmchale/clit-rs/master/screenshots/haskelltweet.png)
+
+##### oysttyer
+
+![Displaying a user's timeline in a terminal.](https://raw.githubusercontent.com/vmchale/clit-rs/master/screenshots/oysttyer.png)
 
 ## Coloring
 
