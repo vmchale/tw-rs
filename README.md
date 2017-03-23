@@ -152,7 +152,7 @@ the fastest.
 
 ##### oysttyer
 
-![Displaying a user's timeline in a terminal.](https://raw.githubusercontent.com/vmchale/clit-rs/master/screenshots/oysttyer.png)
+![Displaying a user's timeline in a terminal.](https://raw.githubusercontent.com/vmchale/clit-rs/master/screenshots/perloysttyer.png)
 
 ## Coloring
 
