@@ -110,7 +110,6 @@ to view your own timeline.
   - [x] retweet
   - [x] reply to tweet
   - [x] fav/unfav tweets
-  - [ ] configure emoji/unicode etc.
   - [ ] follow/unfollow users
   - [ ] fetch mentions
   - [ ] block accounts
@@ -125,13 +124,13 @@ the fastest.
 
 ### Comparison to other command-line clients
 
-| Tool | Language | Color output | Interactive | Vim plugin support | Scriptable |
-| ---- | -------- | ------------ | ----------- | ------------------ | ---------- |
-| tw | Rust | x |   | x | x |
-| rainbowstream | Python | x | x |  |  |
-| oysttyer | Perl |  | x |  | ½ |
-| tweet-hs | Haskell | x |  | x | x |
-| t | Ruby | ½ |  |  | x |
+| Tool | Language | Color output | Interactive | Vim plugin support | Scriptable | Send emoji |
+| ---- | -------- | ------------ | ----------- | ------------------ | ---------- | ---------- |
+| tw | Rust | x |   | x | x |  |
+| rainbowstream | Python | x | x |  |  | x |
+| oysttyer | Perl |  | x |  | ½ |  |
+| tweet-hs | Haskell | x |  | x | x |  |
+| t | Ruby | ½ |  |  | x |  |
 
 #### Screenshots in alacritty
 

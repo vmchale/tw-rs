@@ -5,6 +5,7 @@
 - [ ] option to disable color/fancy retweet symbol
   - [ ] does Display have a color-free version?
 - [x] parse unicode
+  - [ ] emojis
 - [x] oauth-client-rs extra library?
 - [x] screenshots for readme
 - [ ] write something on contributions
@@ -17,6 +18,7 @@
 - [ ] "login" guided command? pin-based login? 
 - [x] time against python/perl/ruby stuff
 - [x] travis ci
+- [x] configure emoji/unicode etc.
 - [ ] consider making quote tweets easier?
 - [ ] move CLI parser/use macro no yaml
 - [ ] add fr/de(/dk/is)
