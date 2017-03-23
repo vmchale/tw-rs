@@ -15,10 +15,9 @@
 - [x] reply subcommand?
 - [x] delete? 
 - [ ] "login" guided command? pin-based login? 
-- [ ] benchmark against python/perl/ruby stuff
+- [x] time against python/perl/ruby stuff
 - [x] travis ci
 - [ ] consider making quote tweets easier?
 - [ ] move CLI parser/use macro no yaml
 - [ ] add fr/de(/dk/is)
-- [ ] bash completions/macro-based over yaml
 - [ ] polish library (could have bindings in other languages!)

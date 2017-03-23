@@ -6,6 +6,7 @@ extern crate colored;
 use std::str::from_utf8;
 use std::fmt;
 use self::colored::Colorize;
+use std::env;
 
 /// Struct encapsulating tweets. Includes the text, name of the user, number of retweets, and
 /// number of favorites. 
@@ -19,10 +20,20 @@ pub struct Tweet<'a>{
 }
 
 // TODO global variable controlling coloring?? 
+/// Display formatter for a tweet. To use without color, set the environment 
+/// variable `CLICOLOR` to 0. To disable special symbol fonts, set the 
+/// `DISABLE_EMOJI` environment variable.
 impl<'a> fmt::Display for Tweet<'a> {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        let heart = "\u{1F49C}".red(); // \u{2665}
-        let retweets = "\u{F079}".green(); // \u{267A}
+        let (heart, retweets) = {
+            if let Ok(val) = env::var("DISABLE_EMOJI")
+                { 
+                    ("\u{2665}".red(), "\u{267A}".green())
+                }
+            else {
+                    ("\u{1F49C}".red(), "\u{F079}".green())
+                }
+        };
         write!(f, "{}\n    {}\n    {} {} {}  {}\n", 
                self.name.yellow(), 
                self.text, 
@@ -35,8 +46,15 @@ impl<'a> fmt::Display for Tweet<'a> {
 
 impl<'a> fmt::Debug for Tweet<'a> {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        let heart = "\u{1F49C}".red(); // \u{2665}
-        let retweets = "\u{F079}".green(); // \u{267A}
+        let (heart, retweets) = {
+            if let Ok(val) = env::var("DISABLE_EMOJI")
+                { 
+                    ("\u{2665}".red(), "\u{267A}".green())
+                }
+            else {
+                    ("\u{1F49C}".red(), "\u{F079}".green())
+                }
+        };
         write!(f, "{} - {}\n    {}\n    {} {} {}  {}\n", 
                self.name.yellow(), 
                from_utf8(self.id).unwrap().underline().blue(),

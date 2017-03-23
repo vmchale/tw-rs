@@ -164,6 +164,14 @@ If you wish to disable colorization,
  $ export CLICOLOR=0
 ```
 
+### Emoji
+
+To make tw use standard unicode in place of symbol fonts, simply set
+
+```bash
+ $ export DISABLE_EMOJI
+```
+
 ## Library
 
 A library is included. It's fairly easy to use once you have the credentials set up, with three functions: one to post a status, one to get your timeline, and one to get a user profile.
