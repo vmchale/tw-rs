@@ -19,7 +19,7 @@ pub struct Tweet<'a>{
     pub id: &'a[u8],
 }
 
-// TODO global variable controlling coloring?? 
+// TODO global variable controlling coloring?
 /// Display formatter for a tweet. To use without color, set the environment 
 /// variable `CLICOLOR` to 0. To disable special symbol fonts, set the 
 /// `DISABLE_EMOJI` environment variable.
