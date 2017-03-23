@@ -1,16 +1,16 @@
 # Command Line Interface Tweeter (rust version)
 
-[![Build Status](https://travis-ci.org/vmchale/clit-rs.svg?branch=master)](https://travis-ci.org/vmchale/clit-rs)
+[![Build Status](https://travis-ci.org/vmchale/tw-rs.svg?branch=master)](https://travis-ci.org/vmchale/tw-rs)
 
 Screenshot in alacritty:
 
-![Displaying a user's timeline in a terminal.](https://raw.githubusercontent.com/vmchale/clit-rs/master/twitter-rust-screenshot.png)
+![Displaying a user's timeline in a terminal.](https://raw.githubusercontent.com/vmchale/tw-rs/master/twitter-rust-screenshot.png)
 
 The rust version of this tool is somewhat faster than its [haskell
 counterpart](https://github.com/vmchale/command-line-tweeter), but the haskell
-one has a few more features.
+one has a couple more features.
 
-Reasons to use clit-rs:
+Reasons to use tw-rs:
   - Faster than other tools ([t](https://github.com/sferik/t), [rainbowstream](https://github.com/DTVD/rainbowstream)
   ,[clit](https://github.com/vmchale/command-line-tweeter)
   ,[oysttyer](https://github.com/oysttyer/oysttyer))
@@ -24,8 +24,8 @@ Reasons to use clit-rs:
   - You want a twitter library for rust. 
   - BSD3 licensed 
 
-Reasons not to use clit-rs:
-  - Many features are still in development
+Reasons not to use tw-rs:
+  - Several features are still in development
   - Fewer features than [rainbowstream](https://github.com/DTVD/rainbowstream),
     [t](https://github.com/sferik/t), or [oysttyer](https://github.com/oysttyer/oysttyer)
   - You want to extend your tools in [haskell](https://github.com/vmchale/command-line-tweeter)
@@ -51,7 +51,7 @@ whitespace.
 ## Installation
 
 If you're on Linux/Windows the best way is probably to download the binaries
-from the releases page [here](https://github.com/vmchale/clit-rs/releases).
+from the releases page [here](https://github.com/vmchale/tw-rs/releases).
 
 Otherwise, you'll have to build from source. To build from source, install 
 [cargo](https://www.rustup.rs/) via rustup; on unix systems this is as simple as
@@ -60,7 +60,7 @@ Otherwise, you'll have to build from source. To build from source, install
 curl https://sh.rustup.rs -sSf | sh
 ```
 
-Then type `cargo install clit-rs`.
+Then type `cargo install tw-rs`.
 
 ## Use
 
@@ -108,11 +108,13 @@ to view your own timeline.
   - [x] delete tweet
   - [x] retweet
   - [x] reply to tweet
+  - [ ] tweet an image
+  - [ ] fav/unfav tweets
   - [ ] display quoted tweets alongside
 
 ## Coloring
 
-clit-rs respects the [CLICOLOR behavior](http://bixense.com/clicolors/) defined here.
+tw-rs respects the [CLICOLOR behavior](http://bixense.com/clicolors/) defined here.
 If you wish to disable colorization, 
 
 ```bash

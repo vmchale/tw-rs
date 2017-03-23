@@ -1,14 +1,14 @@
 [package]
-name = "clit-rs"
+name = "tw-rs"
 description = "Command line tool allow you to access twitter"
-version = "0.1.12-pre"
+version = "0.1.0"
 authors = ["Vanessa McHale <tmchale@wisc.edu>"]
 license-file = "LICENSE"
 exclude = [ ".gitignore" ]
 readme = "README.md"
-repository = "https://github.com/vmchale/clit-rs"
-documentation = "https://github.com/vmchale/clit-rs#README"
-homepage = "https://github.com/vmchale/clit-rs"
+repository = "https://github.com/vmchale/tw-rs"
+documentation = "https://github.com/vmchale/tw-rs#README"
+homepage = "https://github.com/vmchale/tw-rs"
 
 [dependencies]
 oauth-client-fix = "0.1"
