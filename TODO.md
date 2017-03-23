@@ -21,3 +21,4 @@
 - [ ] move CLI parser/use macro no yaml
 - [ ] add fr/de(/dk/is)
 - [ ] bash completions/macro-based over yaml
+- [ ] polish library (could have bindings in other languages!)

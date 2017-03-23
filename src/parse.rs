@@ -87,6 +87,14 @@ named!(retweets_value,
     (value)
   )
 );
+named!(media_id,
+  do_parse!(
+    take_until!("\"media_id\"") >>
+    tag!("\"media_id\":") >>
+    value: int_field >>
+    (value)
+  )
+);
 named!(favorites_value,
   do_parse!(
     take_until!("\"favorite_count\"") >>
@@ -128,4 +136,8 @@ named!(big_parser<&[u8], Vec<Tweet> > , many0!(step_parse));
 /// The function returns an IResult, so you can pattern match to use it. 
 pub fn parse_tweets(str_in: &[u8]) -> IResult<&[u8], Vec<Tweet>> {
     big_parser(str_in)
+}
+
+pub fn get_media_id(str_in: &[u8]) -> IResult<&[u8], &[u8]> {
+    media_id(str_in)
 }
