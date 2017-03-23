@@ -26,10 +26,10 @@ fi
 time(
     printf "Ruby's t\n"
     # ping once so it's fair
-    t timeline hung_pope > /dev/null
+    t timeline realDonaldTrump > /dev/null
     for run in {1..50}
     do
-        t timeline hung_pope > /dev/null
+        t timeline realDonaldTrump > /dev/null
     done
     )
 time(
@@ -44,21 +44,21 @@ time(
 time(
     printf "Haskell's tweet\n"
     # ping once so it's fair
-    tweet user hung_pope -n20 --color > /dev/null
+    tweet user realDonaldTrump -n20 --color > /dev/null
     for run in {1..50}
     do
         # For Haskell's 'tweet'
-        tweet user hung_pope -n20 --color > /dev/null
+        tweet user realDonaldTrump -n20 --color > /dev/null
     done
     )
 time(
     printf "Perl's oysttyer\n"
     # ping once so it's fair
-    echo '/again hung_pope' | perl oysttyer.pl > /dev/null
+    echo '/again realDonaldTrump' | perl oysttyer.pl > /dev/null
     for run in {1..50}
     do
         # For Perl's 'oysttyer'
-        echo '/again hung_pope' | perl oysttyer.pl > /dev/null
+        echo '/again realDonaldTrump' | perl oysttyer.pl > /dev/null
     done
     )
 # TODO fav/ufav a tweet
