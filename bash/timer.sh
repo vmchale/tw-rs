@@ -22,7 +22,6 @@ if [ ! -x "$path_to_tweet" ] ; then
 fi
 
 # Get the user's 20 most recent tweets; repeat thirty times
-sleep 15
 time(
     printf "Ruby's t\n"
     # ping once so it's fair
@@ -32,7 +31,7 @@ time(
         t timeline hung_pope > /dev/null
     done
     )
-sleep 15
+sleep 60
 time(
     printf "Rust's tw\n"
     # ping once so it's fair
@@ -42,7 +41,7 @@ time(
         tw user -n20 > /dev/null 
     done
     )
-sleep 15
+sleep 60
 time(
     printf "Haskell's tweet\n"
     # ping once so it's fair
@@ -53,3 +52,4 @@ time(
         tweet user hung_pope -n20 --color > /dev/null
     done
     )
+sleep 60
