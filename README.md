@@ -1,6 +1,6 @@
 # Command Line Interface Tweeter (rust version)
 
-[![Build Status](https://travis-ci.org/vmchale/tw-rs.svg?branch=master)](https://travis-ci.org/vmchale/tw-rs)
+[![Build Status](https://travis-ci.org/vmchale/clit-rs.svg?branch=master)](https://travis-ci.org/vmchale/clit-rs)
 
 Screenshot in alacritty:
 
