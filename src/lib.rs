@@ -8,7 +8,7 @@
 //! If you get stuck:
 //!
 //! ```c
-//! tw --help
+//! tw help
 //! ```
 #[macro_use] extern crate nom;
 
