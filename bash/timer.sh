@@ -50,3 +50,19 @@ time(
         tweet user hung_pope -n20 --color > /dev/null
     done
     )
+time(
+    printf "Perl's oysttyer\n"
+    # ping once so it's fair
+    echo '/again hung_pope' | perl oysttyer.pl > /dev/null
+    for run in {1..50}
+    do
+        # For Perl's 'oysttyer'
+        echo '/again hung_pope' | perl oysttyer.pl > /dev/null
+    done
+    )
+# TODO add perl? hm
+# echo '/again hung_pope' | perl oysttyer/oysttyer.pl
+
+# TODO fav/ufav a tweet
+# tw fav 844035859674529793
+# tw ufav 844035859674529793

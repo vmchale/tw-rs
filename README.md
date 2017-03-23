@@ -11,7 +11,7 @@ counterpart](https://github.com/vmchale/command-line-tweeter), but the haskell
 one has a couple more features.
 
 Reasons to use tw-rs:
-  - Faster than other tools ([t](https://github.com/sferik/t), [rainbowstream](https://github.com/DTVD/rainbowstream)
+  - Faster than other tools ([t](https://github.com/sferik/t),
   ,[tweet-hs](https://github.com/vmchale/command-line-tweeter)
   ,[oysttyer](https://github.com/oysttyer/oysttyer))
   - Lightweight (5MB, low CPU/memory usage)
@@ -111,6 +111,22 @@ to view your own timeline.
   - [x] fav/unfav tweets
   - [ ] tweet an image
   - [ ] display quoted tweets alongside
+
+### Speed
+
+In the `bash` directory you will find a script that times tw-rs, tweet-hs,
+oysttyer, and t fetching tweets. On linux, it consistently places `tw` as
+the fastest.
+
+### Comparison
+
+| Tool | Language | Color output | Twitter in a terminal | Vim plugin support |
+| ---- | -------- | ------------ | --------------------- | ------------------ |
+| tw | Rust | x |   | x |
+| rainbowstream | Python | x | x |  |
+| oysttyer | Perl |  | x |  |
+| tweet-hs | Haskell | x |  | x |
+| t | Ruby | > |  |  |
 
 ## Coloring
 
