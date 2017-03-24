@@ -104,7 +104,7 @@ fn main() {
     }
 
     // delete a tweet
-    else if let Some(command) = matches.subcommand_matches("delete") {
+    else if let Some(command) = matches.subcommand_matches("del") {
         let num = command.value_of("id")
             .expect("parse of command line options failed.");
         let num_int = num.parse::<u64>()
