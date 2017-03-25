@@ -21,7 +21,7 @@ fn replace_unicode(string: &str) -> char {
         '�'
     }
 }
-named!(inner_char<&[u8], char>, alt!(unicode_char | special_char | newline_char | none_of!("\\\"")));
+named!(inner_char<&[u8], char>, alt!(unicode_char | newline_char | special_char | none_of!("\\\"")));
 named!(prefield<&[u8], Vec<char> >, many0!(inner_char)); 
 named!(field<&[u8], Vec<char> >, delimited!(char!('"'), prefield, char!('"')));
 named!(int_field, take_until!(","));

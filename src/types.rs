@@ -26,7 +26,7 @@ pub struct Tweet<'a>{
 impl<'a> fmt::Display for Tweet<'a> {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         let (heart, retweets) = {
-            if let Ok(val) = env::var("DISABLE_EMOJI")
+            if let Ok(_) = env::var("DISABLE_EMOJI")
                 { 
                     ("\u{2665}".red(), "\u{267A}".green())
                 }
@@ -47,7 +47,7 @@ impl<'a> fmt::Display for Tweet<'a> {
 impl<'a> fmt::Debug for Tweet<'a> {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         let (heart, retweets) = {
-            if let Ok(val) = env::var("DISABLE_EMOJI")
+            if let Ok(_) = env::var("DISABLE_EMOJI")
                 { 
                     ("\u{2665}".red(), "\u{267A}".green())
                 }

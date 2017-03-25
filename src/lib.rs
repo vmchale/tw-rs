@@ -129,7 +129,7 @@ fn image_tweet(image: &[u8], sent_text: &str, api_key: Token, token: Token) {
         let media_id_str = String::from_utf8(parsed.to_vec()).unwrap();
         let mut paramt = HashMap::new();
         let _ = paramt.insert("status".into(), sent_text.into());
-        let _ = paramt.insert("media_id".into(), sent_text.into());
+        let _ = paramt.insert("media_id".into(), media_id_str.into());
         let bytes_rawt = oauth_client::post(api::STATUS_UPDATE, &api_key, Some(&token), Some(&paramt)).unwrap();
         let respt = String::from_utf8(bytes_rawt).unwrap();
         let bytes_slicet = respt.as_bytes();
