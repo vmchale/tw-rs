@@ -155,6 +155,14 @@ the fastest.
 
 ![Displaying a user's timeline in a terminal.](https://raw.githubusercontent.com/vmchale/clit-rs/master/screenshots/perloysttyer.png)
 
+#### Some results
+
+These aren't 100% great benchmarks since twitter's load varies, but tw does come
+in first consistently. This is the time to get, parse, and display 20 tweets
+(50 times)
+
+![Timed results.](https://raw.githubusercontent.com/vmchale/clit-rs/master/results.png)
+
 ## Coloring
 
 tw-rs respects the [CLICOLOR behavior](http://bixense.com/clicolors/) defined here.
