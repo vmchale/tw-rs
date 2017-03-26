@@ -80,6 +80,16 @@ subcommands:
                 help: ID of tweet you want to retweet
                 value_name: ID
                 required: true
+    - urt:
+        about: Unretweet a tweet given its ID
+        version: "0.1.14"
+        author: Vanessa McHale <tmchale@wisc.edu>
+        args:
+            - id:
+                index: 1
+                help: ID of tweet you want to unretweet
+                value_name: ID
+                required: true
     - fav:
         about: Favorite a tweet given its ID
         version: "0.1.14"
@@ -90,6 +100,22 @@ subcommands:
                 help: ID of tweet you want to favorite
                 value_name: ID
                 required: true
+    - follow:
+        about: Follow by screen name
+        version: "0.1.14"
+        author: Vanessa McHale <tmchale@wisc.edu>
+        args:
+            - screen_name:
+                help: Screen name of user
+                index: 1
+    - unfollow:
+        about: Unfollow by screen name
+        version: "0.1.14"
+        author: Vanessa McHale <tmchale@wisc.edu>
+        args:
+            - screen_name:
+                help: Screen name of user
+                index: 1
     - ufav:
         about: Unfavorite a tweet given its ID
         version: "0.1.14"

@@ -195,6 +195,23 @@ pub fn reply(sent_text: &str, reply_to: u64, api_key: Token, token: Token) {
     }
 }
 
+/// Follow a user given their screen name
+pub fn follow(screen_name: &str, api_key: Token, token: Token) {
+    let mut param = HashMap::new();
+    let _ = param.insert("screen_name".into(), screen_name.into());
+    let _ = oauth_client::post(api::FOLLOW, &api_key, Some(&token), Some(&param)).unwrap();
+    // TODO better message?
+    println!("User followed succesfully!");
+}
+
+/// Unfollow a user given their screen name
+pub fn unfollow(screen_name: &str, api_key: Token, token: Token) {
+    let mut param = HashMap::new();
+    let _ = param.insert("screen_name".into(), screen_name.into());
+    let _ = oauth_client::post(api::UNFOLLOW, &api_key, Some(&token), Some(&param)).unwrap();
+    // TODO better message?
+    println!("User unfollowed succesfully!");
+}
 /// Display timeline. Takes number of tweets to return as
 /// a parameter. Second argument is whether to display the id of the tweets.
 ///
@@ -248,6 +265,15 @@ pub fn retweet(tweet_id: u64, api_key: Token, token: Token) {
 	println!("Tweet retweeted successfully!");
 }
 
+/// Unrewteet a tweet by its id
+pub fn unretweet(tweet_id: u64, api_key: Token, token: Token) {
+	let tweet_id_str = tweet_id.to_string();
+	let url = api::UNRETWEET.to_string() + tweet_id_str.as_str() + ".json";
+	let _ = oauth_client::post(url.as_str(), &api_key, Some(&token), None).unwrap();
+	// we don't really care about the return value - TODO better message
+	println!("Tweet unretweeted successfully!");
+}
+
 /// Favorite a tweet by its id
 pub fn favorite_tweet(tweet_id: u64, api_key: Token, token: Token) {
 	let tweet_id_str = tweet_id.to_string();
@@ -287,8 +313,11 @@ pub mod api {
     pub const TIMELINE: &'static str = "https://api.twitter.com/1.1/statuses/home_timeline.json";
     pub const STATUS_UPDATE: &'static str = "https://api.twitter.com/1.1/statuses/update.json";
     pub const RETWEET: &'static str = "https://api.twitter.com/1.1/statuses/retweet/";
+    pub const UNRETWEET: &'static str = "https://api.twitter.com/1.1/statuses/unretweet/";
     pub const DELETE: &'static str = "https://api.twitter.com/1.1/statuses/destroy/";
     pub const UPLOAD: &'static str = "https://upload.twitter.com/1.1/media/upload.json";
     pub const FAVORITE: &'static str = "https://api.twitter.com/1.1/favorites/create.json";
     pub const UNFAVORITE: &'static str = "https://api.twitter.com/1.1/favorites/destroy.json";
+    pub const FOLLOW: &'static str = "https://api.twitter.com/1.1/friendships/create.json";
+    pub const UNFOLLOW: &'static str = "https://api.twitter.com/1.1/friendships/destroy.json";
 }

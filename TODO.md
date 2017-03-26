@@ -1,25 +1,24 @@
 - [x] fix parser so it skips user entities?
-  - [ ] fix 
+  - [x] fix 
   - [x] get RTs correct on quote statuses
-  - [ ] quote actuall tweet when given a quote status?
-- [ ] option to disable color/fancy retweet symbol
-  - [ ] does Display have a color-free version?
+  - [ ] quote actual tweet when given a quote status?
+- [x] option to disable color/fancy retweet symbol
+  - [x] disable fancy unicode
 - [x] parse unicode
   - [ ] emojis
 - [x] oauth-client-rs extra library?
 - [x] screenshots for readme
-- [ ] write something on contributions
 - [x] put parsers in their own module
 - [x] separate functions to return tweets vs. print them.
-- [ ] threading etc. with getting id string?
-  - [x] step 1 is to parse the id string
+- [x] step 1 is to parse the id string
 - [x] reply subcommand?
 - [x] delete? 
 - [ ] "login" guided command? pin-based login? 
+- [ ] parse config file better
 - [x] time against python/perl/ruby stuff
 - [x] travis ci
 - [x] configure emoji/unicode etc.
-- [ ] consider making quote tweets easier?
-- [ ] move CLI parser/use macro no yaml
+- [ ] move CLI parser/use macro not yaml
 - [ ] add fr/de(/dk/is)
 - [ ] polish library (could have bindings in other languages!)
+- [ ] DMs

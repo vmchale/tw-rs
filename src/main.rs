@@ -95,6 +95,20 @@ fn main() {
         tweet(send_str, key, token);
     }
 
+    // follow a user
+    else if let Some(command) = matches.subcommand_matches("follow") {
+        let screen_name = command.value_of("screen_name")
+            .expect("Could not parse user input. Please check the string is correctly formatted");
+        follow(screen_name, key, token);
+    }
+
+    // unfollow a user
+    else if let Some(command) = matches.subcommand_matches("unfollow") {
+        let screen_name = command.value_of("screen_name")
+            .expect("Could not parse user input. Please check the string is correctly formatted");
+        unfollow(screen_name, key, token);
+    }
+
     // send a tweet from stdin (i.e. a pipe)
     else if let Some(_) = matches.subcommand_matches("input") {
         let mut buf_in = String::new();
@@ -132,6 +146,15 @@ fn main() {
         retweet(num_int, key, token);
     }
 
+    // unretweet a tweet
+    else if let Some(command) = matches.subcommand_matches("urt") {
+        let num = command.value_of("id")
+            .expect("parse of command line options failed.");
+        let num_int = num.parse::<u64>()
+            .expect("Please enter a positive whole number");
+        unretweet(num_int, key, token);
+    }
+
     // favorite a tweet
     else if let Some(command) = matches.subcommand_matches("fav") {
         let num = command.value_of("id")
@@ -150,7 +173,6 @@ fn main() {
         unfavorite_tweet(num_int, key, token);
     }
 
-    // print raw bytes from user's profile; useful for debugging
     // print raw bytes from user's profile; useful for debugging
     else if let Some(_) = matches.subcommand_matches("raw") {
         profile_raw(key, token);
