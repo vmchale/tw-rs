@@ -10,6 +10,8 @@
 //! ```c
 //! tw help
 //! ```
+#![feature(test)]
+
 #[macro_use] extern crate nom;
 
 extern crate oauth_client_fix as oauth_client;
@@ -23,6 +25,7 @@ use types::Tweet;
 
 pub mod parse;
 pub mod types;
+pub mod test;
 
 /// Reads credentials from a string, i.e. gets them from a file.
 ///
@@ -57,7 +60,6 @@ pub fn profile_raw(api_key: Token, token: Token) {
     let _ = param.insert("screen_name".into(), "".into());
     let _ = param.insert("count".into(), "15".into()); // TODO accept number of tweets to get
     let bytes_raw = oauth_client::get(api::USER_PROFILE, &api_key, Some(&token), Some(&param)).unwrap();
-    // convert vector of u8's to &[u8] (array slice)
     let resp = String::from_utf8(bytes_raw).unwrap();
     println!("response:\n{}", resp);
 }
@@ -183,7 +185,6 @@ pub fn reply(sent_text: &str, reply_to: u64, api_key: Token, token: Token) {
     let resp = String::from_utf8(bytes_raw).unwrap();
     let bytes_slice = resp.as_bytes();
     let parsed_maybe = parse::parse_tweets(bytes_slice);
-    // FIXME just pop it off so it's faster? we only want one.
     if let IResult::Done(_,parsed) = parsed_maybe {
         println!("{}", parsed[0]);
     }

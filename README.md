@@ -158,8 +158,8 @@ the fastest.
 #### Some results
 
 These aren't 100% great benchmarks since twitter's load varies, but tw does come
-in first consistently. This is the time to get, parse, and display 20 tweets
-(50 times)
+in first consistently. This is the time to get, parse, and display 20 tweets in
+color (50 times)
 
 ![Timed results.](https://raw.githubusercontent.com/vmchale/clit-rs/master/results.png)
 

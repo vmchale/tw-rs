@@ -1,7 +1,6 @@
 - [x] fix parser so it skips user entities?
   - [x] fix 
   - [x] get RTs correct on quote statuses
-  - [ ] quote actual tweet when given a quote status?
 - [x] option to disable color/fancy retweet symbol
   - [x] disable fancy unicode
 - [x] parse unicode
@@ -18,7 +17,7 @@
 - [x] time against python/perl/ruby stuff
 - [x] travis ci
 - [x] configure emoji/unicode etc.
-- [ ] move CLI parser/use macro not yaml
 - [ ] add fr/de(/dk/is)
-- [ ] polish library (could have bindings in other languages!)
+- [x] make library
+  - [ ] polish/finish
 - [ ] DMs
