@@ -16,11 +16,10 @@ extern crate oauth_client_fix as oauth_client;
 extern crate core;
 extern crate base64;
 
-use base64::encode;
 use std::collections::HashMap;
 use oauth_client::Token;
 use nom::IResult;
-use types::{TransientTweet, Tweet};
+use types::Tweet;
 
 pub mod parse;
 pub mod types;
@@ -65,7 +64,7 @@ pub fn profile_raw(api_key: Token, token: Token) {
 
 
 /// Return profile for a given user. 
-pub fn get_profile(screen_name: &str, num: u8, api_key: Token, token: Token) -> Result<Vec<Tweet>,()> {
+pub fn get_profile(screen_name: &str, num: u8, api_key: Token, token: Token) -> Option<Vec<Tweet>> {
     let mut param = HashMap::new();
     let num_str = num.to_string();
     let _ = param.insert("screen_name".into(), screen_name.into());
@@ -74,12 +73,8 @@ pub fn get_profile(screen_name: &str, num: u8, api_key: Token, token: Token) -> 
     // convert vector of u8's to &[u8] (array slice)
     let bytestring = String::from_utf8(bytes_raw).unwrap();
     let bytes_slice = bytestring.as_bytes();
-    // parse as an IResult
-    let parsed_maybe = parse::parse_tweets_string(bytes_slice);
-    match parsed_maybe {
-        Some(parsed) => Ok(parsed),
-        _ => Err(panic!("Tweet failed to parse!")),
-    }
+    // parse as a Result<Vec<Tweet>>
+    parse::parse_tweets_string(bytes_slice)
 }
 
 
