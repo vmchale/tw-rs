@@ -111,7 +111,7 @@ to view your own timeline.
   - [x] retweet
   - [x] reply to tweet
   - [x] fav/unfav tweets
-  - [ ] follow/unfollow users
+  - [x] follow/unfollow users
   - [ ] fetch mentions
   - [ ] block accounts
   - [ ] tweet an image
