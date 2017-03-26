@@ -1,4 +1,4 @@
-//! This crate provides an executable Command Line Iinterface Tweeter, as well as several functions to return
+//! This crate provides an executable Command Line Iinterface TransientTweeter, as well as several functions to return
 //! tweets and to tweet. 
 //!
 //! ```c
@@ -14,12 +14,13 @@
 
 extern crate oauth_client_fix as oauth_client;
 extern crate core;
- extern crate base64;
+extern crate base64;
 
 use base64::encode;
 use std::collections::HashMap;
 use oauth_client::Token;
 use nom::IResult;
+use types::{TransientTweet, Tweet};
 
 pub mod parse;
 pub mod types;
@@ -62,9 +63,9 @@ pub fn profile_raw(api_key: Token, token: Token) {
     println!("response:\n{}", resp);
 }
 
-/*
+
 /// Return profile for a given user. 
-pub fn get_profile<'a>(screen_name: &str, num: u8, api_key: Token, token: Token) -> Result<Vec<Tweet<'a>>,()> {
+pub fn get_profile(screen_name: &str, num: u8, api_key: Token, token: Token) -> Result<Vec<Tweet>,()> {
     let mut param = HashMap::new();
     let num_str = num.to_string();
     let _ = param.insert("screen_name".into(), screen_name.into());
@@ -74,13 +75,13 @@ pub fn get_profile<'a>(screen_name: &str, num: u8, api_key: Token, token: Token)
     let bytestring = String::from_utf8(bytes_raw).unwrap();
     let bytes_slice = bytestring.as_bytes();
     // parse as an IResult
-    let parsed_maybe = parse::parse_tweets(bytes_slice);
+    let parsed_maybe = parse::parse_tweets_string(bytes_slice);
     match parsed_maybe {
-        IResult::Done(_,parsed) => Ok(parsed),
+        Some(parsed) => Ok(parsed),
         _ => Err(panic!("Tweet failed to parse!")),
     }
 }
-*/
+
 
 /// Display profile for a given user. Takes screen name and number of tweets to return as
 /// parameters. Boolean argument is whether to print out user ids. 
@@ -118,6 +119,7 @@ pub fn print_profile(screen_name: &str, num: u8, show_ids: bool, api_key: Token,
     }
 }
 
+/*
 fn image_tweet(image: &[u8], sent_text: &str, api_key: Token, token: Token) {
     let mut param = HashMap::new();
     let _ = param.insert("media_data".into(), encode(image).into());
@@ -142,11 +144,11 @@ fn image_tweet(image: &[u8], sent_text: &str, api_key: Token, token: Token) {
         }
     }
     else {
-        println!("Tweet upload failed")
+        println!("TransientTweet upload failed")
     }
 
 }
-
+*/
 
 /// Send a tweet
 ///

@@ -11,7 +11,16 @@ use std::env;
 /// Struct encapsulating tweets. Includes the text, name of the user, number of retweets, and
 /// number of favorites. 
 #[derive(Clone)]
-pub struct Tweet<'a>{
+pub struct Tweet{
+    pub text: String,
+    pub name: String,
+    pub retweets: String,
+    pub favorites: String,
+    pub id: String,
+}
+
+/// Same but don't bother converting to a string
+pub struct TransientTweet<'a>{
     pub text: String,
     pub name: String,
     pub retweets: &'a[u8],
@@ -19,11 +28,15 @@ pub struct Tweet<'a>{
     pub id: &'a[u8],
 }
 
+pub fn convert(tweet: TransientTweet) -> Tweet {
+    Tweet {text: tweet.text, name: tweet.name, retweets: from_utf8(tweet.retweets).expect("").to_string(), favorites: from_utf8(tweet.favorites).expect("").to_string(), id: from_utf8(tweet.id).expect("").to_string() }
+}
+
 // TODO global variable controlling coloring?
 /// Display formatter for a tweet. To use without color, set the environment 
 /// variable `CLICOLOR` to 0. To disable special symbol fonts, set the 
 /// `DISABLE_EMOJI` environment variable.
-impl<'a> fmt::Display for Tweet<'a> {
+impl<'a> fmt::Display for TransientTweet<'a> {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         let (heart, retweets) = {
             if let Ok(_) = env::var("DISABLE_EMOJI")
@@ -44,7 +57,7 @@ impl<'a> fmt::Display for Tweet<'a> {
     }
 }
 
-impl<'a> fmt::Debug for Tweet<'a> {
+impl<'a> fmt::Debug for TransientTweet<'a> {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         let (heart, retweets) = {
             if let Ok(_) = env::var("DISABLE_EMOJI")

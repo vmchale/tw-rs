@@ -1,8 +1,10 @@
-//! This module contains the parser to turn a byte slice into a [Tweet](struct.Tweet.html)
+//! This module contains the parser to turn a byte slice into a [TransientTweet](struct.TransientTweet.html)
 use nom::IResult;
-use types::Tweet;
+use nom::IResult::{Done};
+use types::{TransientTweet, Tweet};
 use std::str::from_utf8;
 use core::char::from_u32;
+use types::convert;
 
 fn char_vector_to_string(v: Vec<char>) -> String {
     let s:String = v.into_iter().collect();
@@ -115,7 +117,7 @@ named!(skip_mentions<&[u8], () >,
   )
 );
 //TODO also skip first rt if it's a quote status?  
-named!(step_parse<&[u8], Tweet >,
+named!(step_parse<&[u8], TransientTweet >,
   do_parse!(
     get_id: tweet_id >>
     get_text: text_value >>
@@ -124,18 +126,29 @@ named!(step_parse<&[u8], Tweet >,
     opt!(skip_quote_status) >>
     get_retweets: retweets_value >>
     get_favorites: favorites_value >>
-    (Tweet{text: char_vector_to_string(get_text), name: char_vector_to_string(get_name), retweets: get_retweets, favorites: get_favorites, id: get_id })
+    (TransientTweet{text: char_vector_to_string(get_text), name: char_vector_to_string(get_name), retweets: get_retweets, favorites: get_favorites, id: get_id })
   )
 );
-named!(big_parser<&[u8], Vec<Tweet> > , many0!(step_parse)); 
+named!(big_parser<&[u8], Vec<TransientTweet> > , many0!(step_parse)); 
 
 /// Parse a slice of bytes as a vector of tweets. The input should be the JSON-formatted response
 /// sent back by twitter. You can look at an example response
 /// [here](https://dev.twitter.com/rest/reference/get/statuses/user_timeline).
 ///
 /// The function returns an IResult, so you can pattern match to use it. 
-pub fn parse_tweets(str_in: &[u8]) -> IResult<&[u8], Vec<Tweet>> {
+pub fn parse_tweets(str_in: &[u8]) -> IResult<&[u8], Vec<TransientTweet>> {
     big_parser(str_in)
+}
+
+/// Return a Tweet, suitable for libraries etc.
+pub fn parse_tweets_string(str_in: &[u8]) -> Option<Vec<Tweet>> {
+    if let Done(_,val) = parse_tweets(str_in) {
+        Some(val.into_iter().map(|x| convert(x)).collect())
+    }
+    else {
+        None
+    }
+
 }
 
 pub fn get_media_id(str_in: &[u8]) -> IResult<&[u8], &[u8]> {
