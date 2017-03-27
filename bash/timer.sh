@@ -35,10 +35,10 @@ time(
 time(
     printf "Rust's tw\n"
     # ping once so it's fair
-    tw user -n20 > /dev/null 
+    tw user realDonaldTrump -n20 > /dev/null 
     for run in {1..30}
     do
-        tw user -n20 > /dev/null 
+        tw user realDonaldTrump -n20 > /dev/null 
     done
     )
 time(

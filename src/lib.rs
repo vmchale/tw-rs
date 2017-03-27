@@ -11,7 +11,6 @@
 //! tw help
 //! ```
 #![feature(test)]
-
 #[macro_use] extern crate nom;
 
 extern crate oauth_client_fix as oauth_client;
@@ -73,8 +72,7 @@ pub fn get_profile(screen_name: &str, num: u8, api_key: Token, token: Token) -> 
     let _ = param.insert("count".into(), num_str.into()); // TODO accept number of tweets to get
     let bytes_raw = oauth_client::get(api::USER_PROFILE, &api_key, Some(&token), Some(&param)).unwrap();
     // convert vector of u8's to &[u8] (array slice)
-    let bytestring = String::from_utf8(bytes_raw).unwrap();
-    let bytes_slice = bytestring.as_bytes();
+    let bytes_slice = bytes_raw.as_slice();
     // parse as a Result<Vec<Tweet>>
     parse::parse_tweets_string(bytes_slice)
 }
@@ -97,8 +95,7 @@ pub fn print_profile(screen_name: &str, num: u8, show_ids: bool, api_key: Token,
     let _ = param.insert("count".into(), num_str.into()); // TODO accept number of tweets to get
     let bytes_raw = oauth_client::get(api::USER_PROFILE, &api_key, Some(&token), Some(&param)).unwrap();
     // convert vector of u8's to &[u8] (array slice)
-    let resp = String::from_utf8(bytes_raw).unwrap();
-    let bytes_slice = resp.as_bytes();
+    let bytes_slice = bytes_raw.as_slice();
     let parsed_maybe = parse::parse_tweets(bytes_slice);
     if let IResult::Done(_,parsed) = parsed_maybe {
         for i in 0..parsed.len() {
@@ -226,8 +223,7 @@ pub fn print_timeline(num: u8, show_ids:bool, api_key: Token, token: Token) {
     let _ = param.insert("count".into(), num_str.into()); 
     let bytes_raw = oauth_client::get(api::TIMELINE, &api_key, Some(&token), Some(&param)).unwrap();
     // convert vector of u8's to &[u8] (array slice)
-    let resp = String::from_utf8(bytes_raw).unwrap();
-    let bytes_slice = resp.as_bytes();
+    let bytes_slice = bytes_raw.as_slice();
     let parsed_maybe = parse::parse_tweets(bytes_slice);
     if let IResult::Done(_,parsed) = parsed_maybe {
         for i in 0..parsed.len() {
