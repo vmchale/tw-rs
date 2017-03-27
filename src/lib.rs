@@ -298,7 +298,7 @@ pub fn unfavorite_tweet(tweet_id: u64, api_key: Token, token: Token) {
 	let tweet_id_str = tweet_id.to_string();
     let mut param = HashMap::new();
     let _ = param.insert("id".into(), tweet_id_str.into());
-    let bytes_raw = oauth_client::post(api::UNFAVORITE, &api_key, Some(&token), Some(&param)).unwrap(); // FIXME if this fails it's likely because it wasn't already favorited
+    let bytes_raw = oauth_client::post(api::UNFAVORITE, &api_key, Some(&token), Some(&param)).unwrap(); 
     let bytes_slice = bytes_raw.as_slice();
     let parsed_maybe = parse::parse_tweets(bytes_slice);
     if let IResult::Done(_,parsed) = parsed_maybe {
