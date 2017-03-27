@@ -255,7 +255,7 @@ pub fn retweet(tweet_id: u64, api_key: Token, token: Token) {
 	let tweet_id_str = tweet_id.to_string();
 	let url = api::RETWEET.to_string() + tweet_id_str.as_str() + ".json";
 	let _ = oauth_client::post(url.as_str(), &api_key, Some(&token), None).unwrap();
-	// we don't really care about the return value - TODO better message
+	// we don't really care about the return value - TODO better message since parser is v fast
 	println!("Tweet retweeted successfully!");
 }
 
