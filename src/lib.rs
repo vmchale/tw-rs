@@ -41,13 +41,13 @@ pub mod test;
 pub fn get_credentials(contents: &str) -> (Token, Token) {
     let mut iter = contents.split_whitespace();
     iter.next();
-    let api_key = iter.next().expect("");
+    let api_key = iter.next().expect("api key not found");
     iter.next();
-    let api_sec = iter.next().expect("");
+    let api_sec = iter.next().expect("api secret not found");
     iter.next();
-    let tok = iter.next().expect("");
+    let tok = iter.next().expect("token not found");
     iter.next();
-    let tok_sec = iter.next().expect("");
+    let tok_sec = iter.next().expect("token secret");
     let key = oauth_client::Token::new(api_key, api_sec);
     let token = oauth_client::Token::new(tok,tok_sec);
     (key, token)
@@ -69,7 +69,7 @@ pub fn get_profile(screen_name: &str, num: u8, api_key: Token, token: Token) -> 
     let mut param = HashMap::new();
     let num_str = num.to_string();
     let _ = param.insert("screen_name".into(), screen_name.into());
-    let _ = param.insert("count".into(), num_str.into()); // TODO accept number of tweets to get
+    let _ = param.insert("count".into(), num_str.into()); 
     let bytes_raw = oauth_client::get(api::USER_PROFILE, &api_key, Some(&token), Some(&param)).unwrap();
     // convert vector of u8's to &[u8] (array slice)
     let bytes_slice = bytes_raw.as_slice();
@@ -155,8 +155,8 @@ pub fn tweet(sent_text: &str, api_key: Token, token: Token) {
     let mut param = HashMap::new();
     let _ = param.insert("status".into(), sent_text.into());
     let bytes_raw = oauth_client::post(api::STATUS_UPDATE, &api_key, Some(&token), Some(&param)).unwrap();
-    let resp = String::from_utf8(bytes_raw).unwrap();
-    let bytes_slice = resp.as_bytes();
+    // convert vector of u8's to &[u8] (array slice)
+    let bytes_slice = bytes_raw.as_slice();
     let parsed_maybe = parse::parse_tweets(bytes_slice);
     if let IResult::Done(_,parsed) = parsed_maybe {
         println!("{}", parsed[0]);
@@ -179,8 +179,8 @@ pub fn reply(sent_text: &str, reply_to: u64, api_key: Token, token: Token) {
     let _ = param.insert("status".into(), sent_text.into());
     let _ = param.insert("in_reply_to_status_id".into(), reply_to_str.into());
     let bytes_raw = oauth_client::post(api::STATUS_UPDATE, &api_key, Some(&token), Some(&param)).unwrap();
-    let resp = String::from_utf8(bytes_raw).unwrap();
-    let bytes_slice = resp.as_bytes();
+    // convert vector of u8's to &[u8] (array slice)
+    let bytes_slice = bytes_raw.as_slice();
     let parsed_maybe = parse::parse_tweets(bytes_slice);
     if let IResult::Done(_,parsed) = parsed_maybe {
         println!("{}", parsed[0]);
@@ -196,7 +196,7 @@ pub fn follow(screen_name: &str, api_key: Token, token: Token) {
     let _ = param.insert("screen_name".into(), screen_name.into());
     let _ = oauth_client::post(api::FOLLOW, &api_key, Some(&token), Some(&param)).unwrap();
     // TODO better message?
-    println!("User followed succesfully!");
+    println!("{} followed succesfully!", screen_name);
 }
 
 /// Unfollow a user given their screen name
@@ -205,7 +205,7 @@ pub fn unfollow(screen_name: &str, api_key: Token, token: Token) {
     let _ = param.insert("screen_name".into(), screen_name.into());
     let _ = oauth_client::post(api::UNFOLLOW, &api_key, Some(&token), Some(&param)).unwrap();
     // TODO better message?
-    println!("User unfollowed succesfully!");
+    println!("{} unfollowed succesfully!", screen_name);
 }
 /// Display timeline. Takes number of tweets to return as
 /// a parameter. Second argument is whether to display the id of the tweets.
@@ -254,18 +254,30 @@ pub fn delete_tweet(tweet_id: u64, api_key: Token, token: Token) {
 pub fn retweet(tweet_id: u64, api_key: Token, token: Token) {
 	let tweet_id_str = tweet_id.to_string();
 	let url = api::RETWEET.to_string() + tweet_id_str.as_str() + ".json";
-	let _ = oauth_client::post(url.as_str(), &api_key, Some(&token), None).unwrap();
-	// we don't really care about the return value - TODO better message since parser is v fast
-	println!("Tweet retweeted successfully!");
+    let bytes_raw = oauth_client::post(url.as_str(), &api_key, Some(&token), None).unwrap();
+    let bytes_slice = bytes_raw.as_slice();
+    let parsed_maybe = parse::parse_tweets(bytes_slice);
+    if let IResult::Done(_,parsed) = parsed_maybe {
+        println!("{}\n    Retweet", parsed[0]);
+    }
+    else {
+        println!("Parse error when attempting to read tweet data. Did you already retweet this tweet?");
+    }
 }
 
 /// Unrewteet a tweet by its id
 pub fn unretweet(tweet_id: u64, api_key: Token, token: Token) {
 	let tweet_id_str = tweet_id.to_string();
 	let url = api::UNRETWEET.to_string() + tweet_id_str.as_str() + ".json";
-	let _ = oauth_client::post(url.as_str(), &api_key, Some(&token), None).unwrap();
-	// we don't really care about the return value - TODO better message
-	println!("Tweet unretweeted successfully!");
+    let bytes_raw = oauth_client::post(url.as_str(), &api_key, Some(&token), None).unwrap();
+    let bytes_slice = bytes_raw.as_slice();
+    let parsed_maybe = parse::parse_tweets(bytes_slice);
+    if let IResult::Done(_,parsed) = parsed_maybe {
+        println!("{}\n    Retweet", parsed[0]);
+    }
+    else {
+        println!("Parse error when attempting to read tweet data. Did you retweet this tweet?");
+    }
 }
 
 /// Favorite a tweet by its id
@@ -274,14 +286,13 @@ pub fn favorite_tweet(tweet_id: u64, api_key: Token, token: Token) {
     let mut param = HashMap::new();
     let _ = param.insert("id".into(), tweet_id_str.into());
     let bytes_raw = oauth_client::post(api::FAVORITE, &api_key, Some(&token), Some(&param)).unwrap();
-    let resp = String::from_utf8(bytes_raw).unwrap(); // FIXME if this fails it's likely because it was already favorited
-    let bytes_slice = resp.as_bytes();
+    let bytes_slice = bytes_raw.as_slice();
     let parsed_maybe = parse::parse_tweets(bytes_slice);
     if let IResult::Done(_,parsed) = parsed_maybe {
         println!("{}\n    Favorited", parsed[0]);
     }
     else {
-        println!("Parse error when attempting to read tweet data.");
+        println!("Parse error when attempting to read tweet data. Did you already favorite this tweet?");
     }
 }
 
@@ -291,14 +302,13 @@ pub fn unfavorite_tweet(tweet_id: u64, api_key: Token, token: Token) {
     let mut param = HashMap::new();
     let _ = param.insert("id".into(), tweet_id_str.into());
     let bytes_raw = oauth_client::post(api::UNFAVORITE, &api_key, Some(&token), Some(&param)).unwrap(); // FIXME if this fails it's likely because it wasn't already favorited
-    let resp = String::from_utf8(bytes_raw).unwrap();
-    let bytes_slice = resp.as_bytes();
+    let bytes_slice = bytes_raw.as_slice();
     let parsed_maybe = parse::parse_tweets(bytes_slice);
     if let IResult::Done(_,parsed) = parsed_maybe {
         println!("{}\n    Unfavorited", parsed[0]);
     }
     else {
-        println!("Parse error when attempting to read tweet data.");
+        println!("Parse error when attempting to read tweet data. Did you favorite this tweet?");
     }
 }
 /// urls for the twitter api 
