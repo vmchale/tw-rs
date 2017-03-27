@@ -11,8 +11,9 @@
 //! tw help
 //! ```
 #![feature(test)]
-#[macro_use] extern crate nom;
+#[macro_use] 
 
+extern crate nom;
 extern crate oauth_client_fix as oauth_client;
 extern crate core;
 extern crate base64;
@@ -276,6 +277,7 @@ pub fn unretweet(tweet_id: u64, api_key: Token, token: Token) {
     else {
         println!("Parse error when attempting to read tweet data. Did you retweet this tweet?");
     }
+}
 
 /// Favorite a tweet by its id
 pub fn favorite_tweet(tweet_id: u64, api_key: Token, token: Token) {
@@ -308,6 +310,7 @@ pub fn unfavorite_tweet(tweet_id: u64, api_key: Token, token: Token) {
         println!("Parse error when attempting to read tweet data. Did you favorite this tweet?");
     }
 }
+
 /// urls for the twitter api 
 pub mod api {
     pub const USER_PROFILE: &'static str = "https://api.twitter.com/1.1/statuses/user_timeline.json";
