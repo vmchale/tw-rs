@@ -18,49 +18,28 @@ fi
 
 path_to_tweet=$(which tweet)
 if [ ! -x "$path_to_tweet" ] ; then
-   printf "tweet not found. Please install with 'stack install clit'\n" 
+   printf "tweet not found. Please install with 'stack install tweet-hs'\n" 
    exit 0
 fi
 
-# Get the user's 20 most recent tweets; repeat this fifty times
-time(
-    printf "Ruby's t\n"
-    # ping once so it's fair
-    t timeline realDonaldTrump > /dev/null
-    for run in {1..30}
-    do
-        t timeline realDonaldTrump > /dev/null
-    done
-    )
-time(
-    printf "Rust's tw\n"
-    # ping once so it's fair
-    tw user realDonaldTrump -n20 > /dev/null 
-    for run in {1..30}
-    do
-        tw user realDonaldTrump -n20 > /dev/null 
-    done
-    )
-time(
-    printf "Haskell's tweet\n"
-    # ping once so it's fair
-    tweet user realDonaldTrump -n20 --color > /dev/null
-    for run in {1..30}
-    do
-        # For Haskell's 'tweet'
-        tweet user realDonaldTrump -n20 --color > /dev/null
-    done
-    )
-time(
-    printf "Perl's oysttyer\n"
-    # ping once so it's fair
-    echo '/again realDonaldTrump' | perl oysttyer.pl > /dev/null
-    for run in {1..30}
-    do
-        # For Perl's 'oysttyer'
-        echo '/again realDonaldTrump' | perl oysttyer.pl > /dev/null
-    done
-    )
-# TODO fav/ufav a tweet
-# tw fav 844035859674529793
-# tw ufav 844035859674529793
+path_to_bench=$(which bench)
+if [ ! -x "$path_to_bench" ] ; then
+   printf "tweet not found. Please install with 'stack install bench'\n" 
+   exit 0
+fi
+
+# ping once so it's fair
+printf "ping once to initialize..."
+t timeline realDonaldTrump > /dev/null
+
+printf "Ruby's t\n"
+bench "t timeline realDonaldTrump" --output t.html
+
+printf "Haskell's tweet\n"
+bench "tweet user realDonaldTrump" --output tweet.html
+
+printf "Rust's tw\n"
+bench "tw user realDonaldTrump" --output tw.html
+
+printf "Perl's oysttyer"
+bench "echo '/again realDonaldTrump' | perl oysttyer.pl" --output oysttyer.html
