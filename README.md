@@ -1,10 +1,10 @@
 # Command Line Interface Tweeter (rust version)
 
-[![Build Status](https://travis-ci.org/vmchale/clit-rs.svg?branch=master)](https://travis-ci.org/vmchale/clit-rs)
+[![Build Status](https://travis-ci.org/vmchale/tw-rs.svg?branch=master)](https://travis-ci.org/vmchale/tw-rs)
 
 Screenshot in alacritty:
 
-![Displaying a user's timeline in a terminal.](https://raw.githubusercontent.com/vmchale/clit-rs/master/twitter-rust-screenshot.png)
+![Displaying a user's timeline in a terminal.](https://raw.githubusercontent.com/vmchale/tw-rs/master/twitter-rust-screenshot.png)
 
 The rust version of this tool is somewhat faster than its [haskell
 counterpart](https://github.com/vmchale/command-line-tweeter), but the haskell
@@ -137,30 +137,30 @@ the fastest.
 
 ##### tw
 
-![Displaying a user's timeline in a terminal.](https://raw.githubusercontent.com/vmchale/clit-rs/master/screenshots/rusttw.png)
+![Displaying a user's timeline in a terminal.](https://raw.githubusercontent.com/vmchale/tw-rs/master/screenshots/rusttw.png)
 
 ##### t
 
-![Displaying a user's timeline in a terminal.](https://raw.githubusercontent.com/vmchale/clit-rs/master/screenshots/rubyt.png)
+![Displaying a user's timeline in a terminal.](https://raw.githubusercontent.com/vmchale/tw-rs/master/screenshots/rubyt.png)
 
 ##### rainbowstream
 
-![Displaying a user's timeline in a terminal.](https://raw.githubusercontent.com/vmchale/clit-rs/master/screenshots/pythonrainbowstream.png)
+![Displaying a user's timeline in a terminal.](https://raw.githubusercontent.com/vmchale/tw-rs/master/screenshots/pythonrainbowstream.png)
 
 ##### tweet
 
-![Displaying a user's timeline in a terminal.](https://raw.githubusercontent.com/vmchale/clit-rs/master/screenshots/haskelltweet.png)
+![Displaying a user's timeline in a terminal.](https://raw.githubusercontent.com/vmchale/tw-rs/master/screenshots/haskelltweet.png)
 
 ##### oysttyer
 
-![Displaying a user's timeline in a terminal.](https://raw.githubusercontent.com/vmchale/clit-rs/master/screenshots/perloysttyer.png)
+![Displaying a user's timeline in a terminal.](https://raw.githubusercontent.com/vmchale/tw-rs/master/screenshots/perloysttyer.png)
 
 #### Some results
 
 These aren't 100% great benchmarks since twitter's load varies, but tw does come
 in first consistently. This is done with haskell's bench tool.
 
-![Timed results.](https://raw.githubusercontent.com/vmchale/clit-rs/master/results.png)
+![Timed results.](https://raw.githubusercontent.com/vmchale/tw-rs/master/results.png)
 
 ## Coloring
 
