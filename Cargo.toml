@@ -9,6 +9,7 @@ readme = "README.md"
 repository = "https://github.com/vmchale/tw-rs"
 documentation = "https://github.com/vmchale/tw-rs#README"
 homepage = "https://github.com/vmchale/tw-rs"
+test = false
 
 [dependencies]
 oauth-client-fix = "0.1"

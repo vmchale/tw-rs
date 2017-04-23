@@ -1,18 +1,18 @@
-{ stdenv, fetchFromGitHub, rustPlatform, perl }:
+{ stdenv, fetchFromGitHub, rustPlatform, perl, zlib, openssl }:
 
 rustPlatform.buildRustPackage rec {
   name = "tw-rs-${version}";
-  version = "0.1.23";
+  version = "0.1.24";
 
   src = fetchFromGitHub {
     owner = "vmchale";
     repo = "tw-rs";
     rev = "${version}";
-    sha256 = "0090p7p9gyv688w9vx2vr976vk2qfg8yc8aiv6mwvqi5a5l9kcv5";
+    sha256 = "11bbla9r1q9hlr4xb0n87x9yf63jz8qx09i3yjy2p8jfdym7v81v";
   };
-  buildInputs = [ perl ];
+  buildInputs = [ perl zlib openssl ];
 
-  depsSha256 = "1wcq8d6jg49rkmxcl9gk3c3n58hpia7id3iv2mqj09kw5a6cxl1y";
+  depsSha256 = "040i3nks8mgzhz98gcl83pbpfsvbbynvqifzq0rcdba5chi2xnmv";
 
   installPhase = ''
     mkdir -p $out/bin

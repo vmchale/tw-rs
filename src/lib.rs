@@ -86,7 +86,7 @@ pub fn get_profile(screen_name: &str, num: u8, api_key: Token, token: Token) -> 
 ///
 /// # Examples
 /// 
-/// ```
+/// ```ignore
 /// print_profile(realDonaldTrump, 100, false, API_KEY, TOKEN);
 /// ```
 pub fn print_profile(screen_name: &str, num: u8, show_ids: bool, api_key: Token, token: Token) {
@@ -118,7 +118,7 @@ pub fn print_profile(screen_name: &str, num: u8, show_ids: bool, api_key: Token,
 ///
 /// # Examples
 ///
-/// ```
+/// ```ignore
 /// tweet("having a good day :)", API_KEY, TOKEN);
 /// ```
 pub fn tweet(sent_text: &str, api_key: Token, token: Token) {
@@ -140,7 +140,7 @@ pub fn tweet(sent_text: &str, api_key: Token, token: Token) {
 ///
 /// # Examples
 ///
-/// ```
+/// ```ignore
 /// reply("@friend that sounds like a good idea!", 844370958781579265, API_KEY, TOKEN);
 /// ```
 pub fn reply(sent_text: &str, reply_to: u64, api_key: Token, token: Token) {
@@ -184,7 +184,7 @@ pub fn unfollow(screen_name: &str, api_key: Token, token: Token) {
 ///
 /// # Examples
 /// 
-/// ```
+/// ```ignore
 /// print_timeline(5, false, API_KEY, TOKEN);
 /// ```
 pub fn print_timeline(num: u8, show_ids:bool, api_key: Token, token: Token) {
