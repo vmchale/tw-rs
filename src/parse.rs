@@ -46,7 +46,7 @@ named!(tweet_id,
 //FIXME don't do this if it doesn't include entity
 named!(skip_quote_status_entity,
   do_parse!(
-    tag!("quoted_status") >>
+    tag!(",\"quoted_status") >>
     value: retweets_value >>
     (value)
   )
@@ -56,10 +56,9 @@ named!(skip_quote_status,
     take_until!("\"is_quote_status\"") >>
     tag!("\"is_quote_status\":true") >>
     value: take!(1) >> 
-    take_until!("quoted_status_id_str\"") >>
+    take_until!("\"quoted_status_id_str\"") >>
     tag!("\"quoted_status_id_str\":") >>
     delimited!(char!('"'), digit, char!('"')) >>
-    char!(',') >>
     opt!(skip_quote_status_entity) >>
     //retweets_value >>
     (value)
