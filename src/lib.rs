@@ -10,7 +10,7 @@
 //! ```c
 //! tw help
 //! ```
-#![feature(test)]
+//#![feature(test)]
 #[macro_use] 
 
 extern crate nom;
@@ -25,7 +25,7 @@ use types::Tweet;
 
 pub mod parse;
 pub mod types;
-pub mod test;
+//pub mod test;
 
 /// Reads credentials from a string, i.e. gets them from a file.
 ///
