@@ -114,35 +114,6 @@ pub fn print_profile(screen_name: &str, num: u8, show_ids: bool, api_key: Token,
     }
 }
 
-/*
-fn image_tweet(image: &[u8], sent_text: &str, api_key: Token, token: Token) {
-    let mut param = HashMap::new();
-    let _ = param.insert("media_data".into(), encode(image).into());
-    let bytes_raw = oauth_client::post(api::STATUS_UPDATE, &api_key, Some(&token), Some(&param)).unwrap();
-    let bytes_slice = bytes_raw.as_slice();
-    let parsed_maybe = parse::get_media_id(bytes_slice);
-    if let IResult::Done(_,parsed) = parsed_maybe {
-        let media_id_str = String::from_utf8(parsed.to_vec()).unwrap();
-        let mut paramt = HashMap::new();
-        let _ = paramt.insert("status".into(), sent_text.into());
-        let _ = paramt.insert("media_id".into(), media_id_str.into());
-        let bytes_rawt = oauth_client::post(api::STATUS_UPDATE, &api_key, Some(&token), Some(&paramt)).unwrap();
-        let bytes_slicet = bytes_rawt.as_slice();
-        let parsed_maybet = parse::parse_tweets(bytes_slicet);
-        if let IResult::Done(_,parsedt) = parsed_maybet {
-            println!("{}", parsedt[0]);
-        }
-        else {
-            println!("Parse error when attempting to read tweet data.");
-        }
-    }
-    else {
-        println!("TransientTweet upload failed")
-    }
-
-}
-*/
-
 /// Send a tweet
 ///
 /// # Examples

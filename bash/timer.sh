@@ -33,13 +33,13 @@ printf "ping once to initialize..."
 t timeline realDonaldTrump > /dev/null
 
 printf "Ruby's t\n"
-#bench "t timeline realDonaldTrump" --output t.html
+bench "t timeline realDonaldTrump" --output t.html
 
 printf "Haskell's tweet\n"
-#bench "tweet user realDonaldTrump" --output tweet.html
+bench "tweet user realDonaldTrump" --output tweet.html
 
 printf "Rust's tw\n"
-#bench "tw user realDonaldTrump" --output tw.html
+bench "tw user realDonaldTrump" --output tw.html
 
 printf "Perl's oysttyer\n"
 bench "echo '/again realDonaldTrump' | perl oysttyer.pl" --output oysttyer.html

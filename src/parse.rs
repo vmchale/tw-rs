@@ -1,6 +1,7 @@
 //! This module contains the parser to turn a byte slice into a [TransientTweet](struct.TransientTweet.html)
 use nom::IResult;
 use nom::IResult::{Done};
+use nom::digit;
 use types::{TransientTweet, Tweet};
 use std::str::from_utf8;
 use core::char::from_u32;
@@ -12,7 +13,6 @@ fn char_vector_to_string(v: Vec<char>) -> String {
 }
 
 // TODO consider making this a methd?
-// HOT TAKE: oop is just functional programming where composition is backwards
 fn replace_unicode(string: &str) -> char {
     let num_int = u32::from_str_radix(&string[0..4], 16)
         .expect("Failed to parses hexadecimal");
@@ -43,12 +43,25 @@ named!(tweet_id,
     (num_value)
   )
 );
+//FIXME don't do this if it doesn't include entity
+named!(skip_quote_status_entity,
+  do_parse!(
+    tag!("quoted_status") >>
+    value: retweets_value >>
+    (value)
+  )
+);
 named!(skip_quote_status,
   do_parse!(
     take_until!("\"is_quote_status\"") >>
     tag!("\"is_quote_status\":true") >>
     value: take!(1) >> 
-    retweets_value >>
+    take_until!("quoted_status_id_str\"") >>
+    tag!("\"quoted_status_id_str\":") >>
+    delimited!(char!('"'), digit, char!('"')) >>
+    char!(',') >>
+    opt!(skip_quote_status_entity) >>
+    //retweets_value >>
     (value)
   )
 );
@@ -56,7 +69,6 @@ named!(unicode_char<&[u8], char>,
   do_parse!(
     tag!("\\u") >>
     num: take!(4) >>
-    //char.encode_utf8(&mut [0;4]).as_bytes()
     (replace_unicode(from_utf8(num).expect("Failed to convert to bytes. Bad!!")))
   )
 );
@@ -76,7 +88,7 @@ named!(newline_char<&[u8], char>,
 named!(name_value<&[u8], Vec<char> >,
   do_parse!(
     take_until!("\"name\"") >>
-    tag!("\"name\":") >> // fix so it doesn't take the first 
+    tag!("\"name\":") >>
     value: field >>
     (value)
   )
@@ -105,8 +117,6 @@ named!(favorites_value,
     (value)
   )
 );
-// FIXME make it recursive? or not idk
-// basically there's an "indices":[2,19] field that might be there
 named!(skip_mentions<&[u8], () >,
   do_parse!(
     take_until!("\"user_mentions\"") >>
@@ -116,7 +126,6 @@ named!(skip_mentions<&[u8], () >,
     ()
   )
 );
-//TODO also skip first rt if it's a quote status?  
 named!(step_parse<&[u8], TransientTweet >,
   do_parse!(
     get_id: tweet_id >>

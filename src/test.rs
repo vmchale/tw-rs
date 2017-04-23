@@ -1,12 +1,10 @@
 //! Module containing benchmarks
-//! TODO and hopefully soon tests
 #![allow(unused_imports)]
 
 extern crate test;
 
 #[cfg(test)]
 
-// use super::*;
 use test::test::Bencher;
 use parse::parse_tweets;
 use std::io::prelude::*;
