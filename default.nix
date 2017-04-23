@@ -2,21 +2,21 @@
 
 rustPlatform.buildRustPackage rec {
   name = "tw-rs-${version}";
-  version = "0.1.24";
+  version = "0.1.25";
 
   src = fetchFromGitHub {
     owner = "vmchale";
     repo = "tw-rs";
     rev = "${version}";
-    sha256 = "11bbla9r1q9hlr4xb0n87x9yf63jz8qx09i3yjy2p8jfdym7v81v";
-  };
+    sha256 = "1xydb0f1q02pv7vs28gqwsgmn55gh8zic302fnvagm9dgdvaqv96";
+    };
   buildInputs = [ perl zlib openssl ];
 
-  depsSha256 = "040i3nks8mgzhz98gcl83pbpfsvbbynvqifzq0rcdba5chi2xnmv";
+  depsSha256 = "1cgzh8bb0vvcfyzaw47xwm54w51xm7yw74s5pwrpfngdy3w9b4sp";
 
   installPhase = ''
     mkdir -p $out/bin
-    cp -p target/release/tokei $out/bin/
+    cp -p target/release/tw $out/bin/
   '';
 
   meta = with stdenv.lib; {
