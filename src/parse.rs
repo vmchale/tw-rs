@@ -2,7 +2,7 @@
 use nom::IResult;
 use nom::IResult::{Done};
 use nom::digit;
-use types::{TransientTweet, Tweet};
+use types::{TransientTweet, Tweet, TransientTweetQuoted};
 use std::str::from_utf8;
 use core::char::from_u32;
 use types::convert;
@@ -16,6 +16,14 @@ fn lookup(slice: &[u8]) -> char {
     }
 }
 
+fn join(opt: Option<Option<TransientTweetQuoted>>) -> Option<TransientTweetQuoted> {
+    if opt.is_some() {
+        opt.unwrap()
+    }
+    else {
+        None
+    }
+}
 
 fn char_vector_to_string(v: Vec<char>) -> String {
     let s:String = v.into_iter().collect();
@@ -61,24 +69,23 @@ named!(html_char<&[u8], char>,
     (lookup(value))
   )
 );
-//FIXME don't do this if it doesn't include entity
-named!(skip_quote_status_entity,
+//TODO make this parse
+named!(skip_quote_status_entity<&[u8], TransientTweetQuoted >,
   do_parse!(
     tag!(",\"quoted_status") >>
-    value: retweets_value >>
+    value: step_parse_quoted >> // retweets_value >>
     (value)
   )
 );
-named!(skip_quote_status,
+named!(skip_quote_status<&[u8], Option<TransientTweetQuoted> >,
   do_parse!(
     take_until!("\"is_quote_status\"") >>
     tag!("\"is_quote_status\":true") >>
-    value: take!(1) >> 
+    take!(1) >> 
     take_until!("\"quoted_status_id_str\"") >>
     tag!("\"quoted_status_id_str\":") >>
     delimited!(char!('"'), digit, char!('"')) >>
-    opt!(skip_quote_status_entity) >>
-    //retweets_value >>
+    value: opt!(skip_quote_status_entity) >>
     (value)
   )
 );
@@ -143,16 +150,28 @@ named!(skip_mentions<&[u8], () >,
     ()
   )
 );
+named!(step_parse_quoted<&[u8], TransientTweetQuoted >,
+  do_parse!(
+    get_text: text_value >>
+    skip_mentions >>
+    get_name: name_value >>
+    opt!(skip_quote_status) >>
+    get_retweets: retweets_value >>
+    (TransientTweetQuoted{text: char_vector_to_string(get_text), name: char_vector_to_string(get_name), retweets: get_retweets })
+    // join(quote).as_ref()
+  )
+);
 named!(step_parse<&[u8], TransientTweet >,
   do_parse!(
     get_id: tweet_id >>
     get_text: text_value >>
     skip_mentions >>
     get_name: name_value >>
-    opt!(skip_quote_status) >>
+    quote: opt!(skip_quote_status) >>
     get_retweets: retweets_value >>
     get_favorites: favorites_value >>
-    (TransientTweet{text: char_vector_to_string(get_text), name: char_vector_to_string(get_name), retweets: get_retweets, favorites: get_favorites, id: get_id })
+    (TransientTweet{text: char_vector_to_string(get_text), name: char_vector_to_string(get_name), quoted: join(quote), retweets: get_retweets, favorites: get_favorites, id: get_id })
+    // join(quote).as_ref()
   )
 );
 named!(big_parser<&[u8], Vec<TransientTweet> > , many0!(step_parse)); 

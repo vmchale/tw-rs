@@ -4,6 +4,7 @@
 - [x] option to disable color/fancy retweet symbol
   - [x] disable fancy unicode
 - [x] parse unicode
+  - [x] parse weird html stuff
   - [ ] emojis
 - [x] oauth-client-rs extra library?
 - [x] screenshots for readme

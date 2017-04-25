@@ -9,7 +9,8 @@ use self::colored::Colorize;
 use std::env;
 
 /// Struct encapsulating tweets. Includes the text, name of the user, number of retweets, and
-/// number of favorites. 
+/// number of favorites.
+// TODO make this parse quoted too
 #[derive(Clone)]
 pub struct Tweet{
     pub text: String,
@@ -23,16 +24,33 @@ pub struct Tweet{
 pub struct TransientTweet<'a>{
     pub text: String,
     pub name: String,
+    pub quoted: Option<TransientTweetQuoted<'a>>,
     pub retweets: &'a[u8],
     pub favorites: &'a[u8],
     pub id: &'a[u8],
+}
+
+/// struct for tweet that was quoted
+pub struct TransientTweetQuoted<'a>{
+    pub text: String,
+    pub name: String,
+    pub retweets: &'a[u8],
 }
 
 pub fn convert(tweet: TransientTweet) -> Tweet {
     Tweet {text: tweet.text, name: tweet.name, retweets: from_utf8(tweet.retweets).expect("").to_string(), favorites: from_utf8(tweet.favorites).expect("").to_string(), id: from_utf8(tweet.id).expect("").to_string() }
 }
 
-// TODO global variable controlling coloring?
+
+/// Display formatter for our quoted tweets
+impl<'a> fmt::Display for TransientTweetQuoted<'a> {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        write!(f, "    {}\n    {}\n",
+               self.name.yellow(),
+               self.text)
+    }
+}
+
 /// Display formatter for a tweet. To use without color, set the environment 
 /// variable `CLICOLOR` to 0. To disable special symbol fonts, set the 
 /// `DISABLE_EMOJI` environment variable.
@@ -47,13 +65,25 @@ impl<'a> fmt::Display for TransientTweet<'a> {
                     ("\u{1F49C}".red(), "\u{F079}".green())
                 }
         };
-        write!(f, "{}\n    {}\n    {} {} {}  {}\n", 
-               self.name.yellow(), 
-               self.text, 
-               heart,
-               from_utf8(self.favorites).unwrap(),
-               retweets,
-               from_utf8(self.retweets).unwrap())
+        if let Some(ref quote) = self.quoted {
+            write!(f, "{}\n    {}\n    {} {} {}  {}\n{}", 
+                   self.name.yellow(), 
+                   self.text, 
+                   heart,
+                   from_utf8(self.favorites).unwrap(),
+                   retweets,
+                   from_utf8(self.retweets).unwrap(),
+                   quote)
+        }
+        else {
+            write!(f, "{}\n    {}\n    {} {} {}  {}\n", 
+                   self.name.yellow(), 
+                   self.text, 
+                   heart,
+                   from_utf8(self.favorites).unwrap(),
+                   retweets,
+                   from_utf8(self.retweets).unwrap())
+        }
     }
 }
 
