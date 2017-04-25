@@ -17,7 +17,7 @@ fn main() {
     
     // command-line parser
     let yaml = load_yaml!("options-en.yml");
-    let matches = App::from_yaml(yaml).get_matches();
+    let matches = App::from_yaml(yaml).version(crate_version!()).get_matches();
 
     // set path to credentials file
     let path_read = matches.value_of("credentials");
