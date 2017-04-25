@@ -7,6 +7,16 @@ use std::str::from_utf8;
 use core::char::from_u32;
 use types::convert;
 
+fn lookup(slice: &[u8]) -> char {
+    if slice == b"amp" {
+        '&'
+    }
+    else {
+        '<'
+    }
+}
+
+
 fn char_vector_to_string(v: Vec<char>) -> String {
     let s:String = v.into_iter().collect();
     s
@@ -23,7 +33,7 @@ fn replace_unicode(string: &str) -> char {
         '�'
     }
 }
-named!(inner_char<&[u8], char>, alt!(unicode_char | newline_char | special_char | none_of!("\\\"")));
+named!(inner_char<&[u8], char>, alt!(html_char | unicode_char | newline_char | special_char | none_of!("\\\"")));
 named!(prefield<&[u8], Vec<char> >, many0!(inner_char)); 
 named!(field<&[u8], Vec<char> >, delimited!(char!('"'), prefield, char!('"')));
 named!(int_field, take_until!(","));
@@ -41,6 +51,14 @@ named!(tweet_id,
     tag!("\"id\":") >>
     num_value: take_until!(",") >>
     (num_value)
+  )
+);
+named!(html_char<&[u8], char>,
+  do_parse!(
+    char!('&') >>
+    value: take_until!(";") >>
+    char!(';') >>
+    (lookup(value))
   )
 );
 //FIXME don't do this if it doesn't include entity
