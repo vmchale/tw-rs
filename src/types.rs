@@ -24,17 +24,16 @@ pub struct Tweet{
 pub struct TransientTweet<'a>{
     pub text: String,
     pub name: String,
-    pub quoted: Option<TransientTweetQuoted<'a>>,
+    pub quoted: Option<TweetQuoted>,
     pub retweets: &'a[u8],
     pub favorites: &'a[u8],
     pub id: &'a[u8],
 }
 
 /// struct for tweet that was quoted
-pub struct TransientTweetQuoted<'a>{
+pub struct TweetQuoted{
     pub text: String,
     pub name: String,
-    pub retweets: &'a[u8],
 }
 
 pub fn convert(tweet: TransientTweet) -> Tweet {
@@ -43,7 +42,7 @@ pub fn convert(tweet: TransientTweet) -> Tweet {
 
 
 /// Display formatter for our quoted tweets
-impl<'a> fmt::Display for TransientTweetQuoted<'a> {
+impl fmt::Display for TweetQuoted {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         write!(f, "    {}\n    {}\n",
                self.name.yellow(),

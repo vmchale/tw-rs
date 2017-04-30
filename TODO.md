@@ -1,6 +1,7 @@
 - [x] fix parser so it skips user entities?
   - [x] fix 
   - [x] get RTs correct on quote statuses
+  - [x] include quoted tweets
 - [x] option to disable color/fancy retweet symbol
   - [x] disable fancy unicode
 - [x] parse unicode

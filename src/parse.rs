@@ -2,7 +2,7 @@
 use nom::IResult;
 use nom::IResult::{Done};
 use nom::digit;
-use types::{TransientTweet, Tweet, TransientTweetQuoted};
+use types::{TransientTweet, Tweet, TweetQuoted};
 use std::str::from_utf8;
 use core::char::from_u32;
 use types::convert;
@@ -16,7 +16,7 @@ fn lookup(slice: &[u8]) -> char {
     }
 }
 
-fn join(opt: Option<Option<TransientTweetQuoted>>) -> Option<TransientTweetQuoted> {
+fn join(opt: Option<Option<TweetQuoted>>) -> Option<TweetQuoted> {
     if opt.is_some() {
         opt.unwrap()
     }
@@ -70,14 +70,14 @@ named!(html_char<&[u8], char>,
   )
 );
 //TODO make this parse
-named!(skip_quote_status_entity<&[u8], TransientTweetQuoted >,
+named!(skip_quote_status_entity<&[u8], TweetQuoted >,
   do_parse!(
     tag!(",\"quoted_status") >>
     value: step_parse_quoted >> // retweets_value >>
     (value)
   )
 );
-named!(skip_quote_status<&[u8], Option<TransientTweetQuoted> >,
+named!(skip_quote_status<&[u8], Option<TweetQuoted> >,
   do_parse!(
     take_until!("\"is_quote_status\"") >>
     tag!("\"is_quote_status\":true") >>
@@ -150,15 +150,14 @@ named!(skip_mentions<&[u8], () >,
     ()
   )
 );
-named!(step_parse_quoted<&[u8], TransientTweetQuoted >,
+named!(step_parse_quoted<&[u8], TweetQuoted >,
   do_parse!(
     get_text: text_value >>
     skip_mentions >>
     get_name: name_value >>
     opt!(skip_quote_status) >>
-    get_retweets: retweets_value >>
-    (TransientTweetQuoted{text: char_vector_to_string(get_text), name: char_vector_to_string(get_name), retweets: get_retweets })
-    // join(quote).as_ref()
+    retweets_value >>
+    (TweetQuoted{text: char_vector_to_string(get_text), name: char_vector_to_string(get_name)})
   )
 );
 named!(step_parse<&[u8], TransientTweet >,
@@ -171,7 +170,6 @@ named!(step_parse<&[u8], TransientTweet >,
     get_retweets: retweets_value >>
     get_favorites: favorites_value >>
     (TransientTweet{text: char_vector_to_string(get_text), name: char_vector_to_string(get_name), quoted: join(quote), retweets: get_retweets, favorites: get_favorites, id: get_id })
-    // join(quote).as_ref()
   )
 );
 named!(big_parser<&[u8], Vec<TransientTweet> > , many0!(step_parse)); 
