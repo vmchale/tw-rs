@@ -54,7 +54,7 @@ pub fn get_credentials(contents: &str) -> (Token, Token) {
     (key, token)
 }
 
-/// Display the raw JSON of a response, useful for debugging.
+/// Display the raw JSON of a response; useful for debugging.
 pub fn profile_raw(api_key: &Token, token: &Token) {
     let mut param = HashMap::new();
     let _ = param.insert("screen_name".into(), "".into());
@@ -165,7 +165,6 @@ pub fn follow(screen_name: &str, api_key: &Token, token: &Token) {
     let mut param = HashMap::new();
     let _ = param.insert("screen_name".into(), screen_name.into());
     let _ = oauth_client::post(api::FOLLOW, api_key, Some(token), Some(&param)).unwrap();
-    // TODO better message?
     println!("{} followed succesfully!", screen_name);
 }
 
@@ -174,7 +173,6 @@ pub fn unfollow(screen_name: &str, api_key: &Token, token: &Token) {
     let mut param = HashMap::new();
     let _ = param.insert("screen_name".into(), screen_name.into());
     let _ = oauth_client::post(api::UNFOLLOW, api_key, Some(token), Some(&param)).unwrap();
-    // TODO better message?
     println!("{} unfollowed succesfully!", screen_name);
 }
 /// Display timeline. Takes number of tweets to return as
@@ -192,7 +190,6 @@ pub fn print_timeline(num: u8, show_ids:bool, api_key: &Token, token: &Token) {
     let mut param = HashMap::new();
     let _ = param.insert("count".into(), num_str.into()); 
     let bytes_raw = oauth_client::get(api::TIMELINE, api_key, Some(token), Some(&param)).unwrap();
-    // convert vector of u8's to &[u8] (array slice)
     let bytes_slice = bytes_raw.as_slice();
     let parsed_maybe = parse::parse_tweets(bytes_slice);
     if let IResult::Done(_,parsed) = parsed_maybe {

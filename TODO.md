@@ -1,9 +1,12 @@
 - [ ] use [smallvec](https://github.com/servo/rust-smallvec) for char vectors?
+- [x] image w/ up-to-date benchmark
+- [ ] emoji
 - [x] fix parser so it skips user entities?
-  - [x] fix 
+  - [x] fix
   - [x] get RTs correct on quote statuses
   - [x] include quoted tweets
 - [ ] toml parser for config?
+- [x] clippy lints
 - [x] option to disable color/fancy retweet symbol
   - [x] disable fancy unicode
 - [x] parse unicode
@@ -15,13 +18,11 @@
 - [x] separate functions to return tweets vs. print them.
 - [x] step 1 is to parse the id string
 - [x] reply subcommand?
-- [x] delete? 
-- [ ] "login" guided command? pin-based login? 
-- [ ] parse config file better
-- [x] time against python/perl/ruby stuff
+- [x] delete?
+- [x] time against haskell/perl/ruby stuff
 - [x] travis ci
 - [x] configure emoji/unicode etc.
 - [ ] add fr/de(/dk/is)
 - [x] make library
-  - [ ] polish/finish
-- [ ] DMs
+  - [ ] nicer types?
+  - [ ] polish
