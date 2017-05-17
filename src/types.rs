@@ -56,7 +56,7 @@ impl fmt::Display for TweetQuoted {
 impl<'a> fmt::Display for TransientTweet<'a> {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         let (heart, retweets) = {
-            if let Ok(_) = env::var("DISABLE_EMOJI")
+            if env::var("DISABLE_EMOJI").is_ok()
                 { 
                     ("\u{2665}".red(), "\u{267A}".green())
                 }
@@ -89,7 +89,7 @@ impl<'a> fmt::Display for TransientTweet<'a> {
 impl<'a> fmt::Debug for TransientTweet<'a> {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         let (heart, retweets) = {
-            if let Ok(_) = env::var("DISABLE_EMOJI")
+            if env::var("DISABLE_EMOJI").is_ok()
                 { 
                     ("\u{2665}".red(), "\u{267A}".green())
                 }

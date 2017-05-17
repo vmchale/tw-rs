@@ -55,21 +55,21 @@ fn main() {
             if let Some(num) = command.value_of("count") {
                 let num_int = num.parse::<u8>()
                     .expect("Please enter a positive whole number");
-                print_profile(user, num_int, show_ids, key, token);
+                print_profile(user, num_int, show_ids, &key, &token);
             }
             else {
                 // default is to fetch 8 tweets from the profile
-                print_profile(user, 8, show_ids, key, token);
+                print_profile(user, 8, show_ids, &key, &token);
             }
         }
         else if let Some(num) = command.value_of("count") {
                 let num_int = num.parse::<u8>()
                     .expect("Please enter a positive whole number");
-                print_profile("", num_int, show_ids, key, token);
+                print_profile("", num_int, show_ids, &key, &token);
             }
         else {
             // this will return the user's own profile
-            print_profile("", 8, show_ids, key, token); 
+            print_profile("", 8, show_ids, &key, &token); 
         }
     }
 
@@ -78,11 +78,11 @@ fn main() {
         if let Some(num) = command.value_of("count") {
             let num_int = num.parse::<u8>()
                 .expect("Please enter a positive whole number");
-            print_timeline(num_int, show_ids, key, token);
+            print_timeline(num_int, show_ids, &key, &token);
         }
         else {
             // default is to fetch 15 tweets from the user's timeline
-            print_timeline(15, show_ids, key, token);
+            print_timeline(15, show_ids, &key, &token);
         }
     }
 
@@ -90,21 +90,21 @@ fn main() {
     else if let Some(command) = matches.subcommand_matches("send") {
         let send_str = command.value_of("words")
             .expect("Could not parse user input. Please check the string is correctly formatted");
-        tweet(send_str, key, token);
+        tweet(send_str, &key, &token);
     }
 
     // follow a user
     else if let Some(command) = matches.subcommand_matches("follow") {
         let screen_name = command.value_of("screen_name")
             .expect("Could not parse user input. Please check the string is correctly formatted");
-        follow(screen_name, key, token);
+        follow(screen_name, &key, &token);
     }
 
     // unfollow a user
     else if let Some(command) = matches.subcommand_matches("unfollow") {
         let screen_name = command.value_of("screen_name")
             .expect("Could not parse user input. Please check the string is correctly formatted");
-        unfollow(screen_name, key, token);
+        unfollow(screen_name, &key, &token);
     }
 
     // send a tweet from stdin (i.e. a pipe)
@@ -112,7 +112,7 @@ fn main() {
         let mut buf_in = String::new();
         io::stdin().read_to_string(&mut buf_in)
             .expect("Failed to read from stdin. Make sure you piped in valid string data!");
-        tweet(&buf_in, key, token);
+        tweet(&buf_in, &key, &token);
     }
 
     // delete a tweet
@@ -121,7 +121,7 @@ fn main() {
             .expect("parse of command line options failed.");
         let num_int = num.parse::<u64>()
             .expect("Please enter a positive whole number");
-        delete_tweet(num_int, key, token);
+        delete_tweet(num_int, &key, &token);
     }
 
     // reply to a tweet
@@ -132,7 +132,7 @@ fn main() {
             .expect("parse of command line options failed."); // FIXME user the better message
         let num_int = num.parse::<u64>()
             .expect("Please enter a positive whole number");
-        reply(send_str, num_int, key, token);
+        reply(send_str, num_int, &key, &token);
     }
 
     // retweet a tweet
@@ -141,7 +141,7 @@ fn main() {
             .expect("parse of command line options failed.");
         let num_int = num.parse::<u64>()
             .expect("Please enter a positive whole number");
-        retweet(num_int, key, token);
+        retweet(num_int, &key, &token);
     }
 
     // unretweet a tweet
@@ -150,7 +150,7 @@ fn main() {
             .expect("parse of command line options failed.");
         let num_int = num.parse::<u64>()
             .expect("Please enter a positive whole number");
-        unretweet(num_int, key, token);
+        unretweet(num_int, &key, &token);
     }
 
     // favorite a tweet
@@ -159,7 +159,7 @@ fn main() {
             .expect("parse of command line options failed.");
         let num_int = num.parse::<u64>()
             .expect("Please enter a positive whole number");
-        favorite_tweet(num_int, key, token);
+        favorite_tweet(num_int, &key, &token);
     }
 
     // unfavorite a tweet
@@ -168,12 +168,12 @@ fn main() {
             .expect("parse of command line options failed.");
         let num_int = num.parse::<u64>()
             .expect("Please enter a positive whole number");
-        unfavorite_tweet(num_int, key, token);
+        unfavorite_tweet(num_int, &key, &token);
     }
 
     // print raw bytes from user's profile; useful for debugging
     else if matches.subcommand_matches("raw").is_some() {
-        profile_raw(key, token);
+        profile_raw(&key, &token);
     }
 
     // entered an invalid subcommand

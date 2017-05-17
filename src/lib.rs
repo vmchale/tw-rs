@@ -1,4 +1,4 @@
-//! This crate provides an executable Command Line Iinterface TransientTweeter, as well as several functions to return
+//! This crate provides an executable tw-rs, as well as several functions to return
 //! tweets and to tweet. 
 //!
 //! ```c
@@ -55,23 +55,23 @@ pub fn get_credentials(contents: &str) -> (Token, Token) {
 }
 
 /// Display the raw JSON of a response, useful for debugging.
-pub fn profile_raw(api_key: Token, token: Token) {
+pub fn profile_raw(api_key: &Token, token: &Token) {
     let mut param = HashMap::new();
     let _ = param.insert("screen_name".into(), "".into());
     let _ = param.insert("count".into(), "20".into()); // TODO accept number of tweets to get
-    let bytes_raw = oauth_client::get(api::USER_PROFILE, &api_key, Some(&token), Some(&param)).unwrap();
+    let bytes_raw = oauth_client::get(api::USER_PROFILE, api_key, Some(token), Some(&param)).unwrap();
     let resp = String::from_utf8(bytes_raw).unwrap();
     println!("response:\n{}", resp);
 }
 
 
 /// Return profile for a given user. 
-pub fn get_profile(screen_name: &str, num: u8, api_key: Token, token: Token) -> Option<Vec<Tweet>> {
+pub fn get_profile(screen_name: &str, num: u8, api_key: &Token, token: &Token) -> Option<Vec<Tweet>> {
     let mut param = HashMap::new();
     let num_str = num.to_string();
     let _ = param.insert("screen_name".into(), screen_name.into());
     let _ = param.insert("count".into(), num_str.into()); 
-    let bytes_raw = oauth_client::get(api::USER_PROFILE, &api_key, Some(&token), Some(&param)).unwrap();
+    let bytes_raw = oauth_client::get(api::USER_PROFILE, api_key, Some(token), Some(&param)).unwrap();
     // convert vector of u8's to &[u8] (array slice)
     let bytes_slice = bytes_raw.as_slice();
     // parse as a Result<Vec<Tweet>>
@@ -89,23 +89,23 @@ pub fn get_profile(screen_name: &str, num: u8, api_key: Token, token: Token) -> 
 /// ```ignore
 /// print_profile(realDonaldTrump, 100, false, API_KEY, TOKEN);
 /// ```
-pub fn print_profile(screen_name: &str, num: u8, show_ids: bool, api_key: Token, token: Token) {
+pub fn print_profile(screen_name: &str, num: u8, show_ids: bool, api_key: &Token, token: &Token) {
     let mut param = HashMap::new();
     let num_str = num.to_string();
     let _ = param.insert("screen_name".into(), screen_name.into());
     let _ = param.insert("count".into(), num_str.into()); // TODO accept number of tweets to get
-    let bytes_raw = oauth_client::get(api::USER_PROFILE, &api_key, Some(&token), Some(&param)).unwrap();
+    let bytes_raw = oauth_client::get(api::USER_PROFILE, api_key, Some(token), Some(&param)).unwrap();
     // convert vector of u8's to &[u8] (array slice)
     let bytes_slice = bytes_raw.as_slice();
     let parsed_maybe = parse::parse_tweets(bytes_slice);
     if let IResult::Done(_,parsed) = parsed_maybe {
-        for i in 0..parsed.len() {
+        for to_show in 0..parsed.len() {
             if show_ids {
-                println!("{:?}", parsed[i]);
+                println!("{:?}", to_show);
             }
             else
             {
-                println!("{}", parsed[i]);
+                println!("{}", to_show);
             }
         }
     }
@@ -121,10 +121,10 @@ pub fn print_profile(screen_name: &str, num: u8, show_ids: bool, api_key: Token,
 /// ```ignore
 /// tweet("having a good day :)", API_KEY, TOKEN);
 /// ```
-pub fn tweet(sent_text: &str, api_key: Token, token: Token) {
+pub fn tweet(sent_text: &str, api_key: &Token, token: &Token) {
     let mut param = HashMap::new();
     let _ = param.insert("status".into(), sent_text.into());
-    let bytes_raw = oauth_client::post(api::STATUS_UPDATE, &api_key, Some(&token), Some(&param)).unwrap();
+    let bytes_raw = oauth_client::post(api::STATUS_UPDATE, api_key, Some(token), Some(&param)).unwrap();
     // convert vector of u8's to &[u8] (array slice)
     let bytes_slice = bytes_raw.as_slice();
     let parsed_maybe = parse::parse_tweets(bytes_slice);
@@ -143,12 +143,12 @@ pub fn tweet(sent_text: &str, api_key: Token, token: Token) {
 /// ```ignore
 /// reply("@friend that sounds like a good idea!", 844370958781579265, API_KEY, TOKEN);
 /// ```
-pub fn reply(sent_text: &str, reply_to: u64, api_key: Token, token: Token) {
+pub fn reply(sent_text: &str, reply_to: u64, api_key: &Token, token: &Token) {
     let mut param = HashMap::new();
     let reply_to_str = reply_to.to_string();
     let _ = param.insert("status".into(), sent_text.into());
     let _ = param.insert("in_reply_to_status_id".into(), reply_to_str.into());
-    let bytes_raw = oauth_client::post(api::STATUS_UPDATE, &api_key, Some(&token), Some(&param)).unwrap();
+    let bytes_raw = oauth_client::post(api::STATUS_UPDATE, api_key, Some(token), Some(&param)).unwrap();
     // convert vector of u8's to &[u8] (array slice)
     let bytes_slice = bytes_raw.as_slice();
     let parsed_maybe = parse::parse_tweets(bytes_slice);
@@ -161,19 +161,19 @@ pub fn reply(sent_text: &str, reply_to: u64, api_key: Token, token: Token) {
 }
 
 /// Follow a user given their screen name
-pub fn follow(screen_name: &str, api_key: Token, token: Token) {
+pub fn follow(screen_name: &str, api_key: &Token, token: &Token) {
     let mut param = HashMap::new();
     let _ = param.insert("screen_name".into(), screen_name.into());
-    let _ = oauth_client::post(api::FOLLOW, &api_key, Some(&token), Some(&param)).unwrap();
+    let _ = oauth_client::post(api::FOLLOW, api_key, Some(token), Some(&param)).unwrap();
     // TODO better message?
     println!("{} followed succesfully!", screen_name);
 }
 
 /// Unfollow a user given their screen name
-pub fn unfollow(screen_name: &str, api_key: Token, token: Token) {
+pub fn unfollow(screen_name: &str, api_key: &Token, token: &Token) {
     let mut param = HashMap::new();
     let _ = param.insert("screen_name".into(), screen_name.into());
-    let _ = oauth_client::post(api::UNFOLLOW, &api_key, Some(&token), Some(&param)).unwrap();
+    let _ = oauth_client::post(api::UNFOLLOW, api_key, Some(token), Some(&param)).unwrap();
     // TODO better message?
     println!("{} unfollowed succesfully!", screen_name);
 }
@@ -187,22 +187,22 @@ pub fn unfollow(screen_name: &str, api_key: Token, token: Token) {
 /// ```ignore
 /// print_timeline(5, false, API_KEY, TOKEN);
 /// ```
-pub fn print_timeline(num: u8, show_ids:bool, api_key: Token, token: Token) {
+pub fn print_timeline(num: u8, show_ids:bool, api_key: &Token, token: &Token) {
     let num_str = num.to_string();
     let mut param = HashMap::new();
     let _ = param.insert("count".into(), num_str.into()); 
-    let bytes_raw = oauth_client::get(api::TIMELINE, &api_key, Some(&token), Some(&param)).unwrap();
+    let bytes_raw = oauth_client::get(api::TIMELINE, api_key, Some(token), Some(&param)).unwrap();
     // convert vector of u8's to &[u8] (array slice)
     let bytes_slice = bytes_raw.as_slice();
     let parsed_maybe = parse::parse_tweets(bytes_slice);
     if let IResult::Done(_,parsed) = parsed_maybe {
-        for i in 0..parsed.len() {
+        for to_show in 0..parsed.len() {
             if show_ids {
-                println!("{:?}", parsed[i]);
+                println!("{:?}", to_show);
             }
             else
             {
-                println!("{}", parsed[i]);
+                println!("{}", to_show);
             }
         }
     }
@@ -212,19 +212,19 @@ pub fn print_timeline(num: u8, show_ids:bool, api_key: Token, token: Token) {
 }
 
 /// Delete a tweet by its id
-pub fn delete_tweet(tweet_id: u64, api_key: Token, token: Token) {
+pub fn delete_tweet(tweet_id: u64, api_key: &Token, token: &Token) {
 	let tweet_id_str = tweet_id.to_string();
 	let url = api::DELETE.to_string() + tweet_id_str.as_str() + ".json";
-	let _ = oauth_client::post(url.as_str(), &api_key, Some(&token), None).unwrap();
+	let _ = oauth_client::post(url.as_str(), api_key, Some(token), None).unwrap();
 	// we don't really care about the return value - TODO better message
 	println!("Tweet deleted successfully!");
 }
 	
 /// Rewteet a tweet by its id
-pub fn retweet(tweet_id: u64, api_key: Token, token: Token) {
+pub fn retweet(tweet_id: u64, api_key: &Token, token: &Token) {
 	let tweet_id_str = tweet_id.to_string();
 	let url = api::RETWEET.to_string() + tweet_id_str.as_str() + ".json";
-    let bytes_raw = oauth_client::post(url.as_str(), &api_key, Some(&token), None).unwrap();
+    let bytes_raw = oauth_client::post(url.as_str(), api_key, Some(token), None).unwrap();
     let bytes_slice = bytes_raw.as_slice();
     let parsed_maybe = parse::parse_tweets(bytes_slice);
     if let IResult::Done(_,parsed) = parsed_maybe {
@@ -236,10 +236,10 @@ pub fn retweet(tweet_id: u64, api_key: Token, token: Token) {
 }
 
 /// Unrewteet a tweet by its id
-pub fn unretweet(tweet_id: u64, api_key: Token, token: Token) {
+pub fn unretweet(tweet_id: u64, api_key: &Token, token: &Token) {
 	let tweet_id_str = tweet_id.to_string();
 	let url = api::UNRETWEET.to_string() + tweet_id_str.as_str() + ".json";
-    let bytes_raw = oauth_client::post(url.as_str(), &api_key, Some(&token), None).unwrap();
+    let bytes_raw = oauth_client::post(url.as_str(), api_key, Some(token), None).unwrap();
     let bytes_slice = bytes_raw.as_slice();
     let parsed_maybe = parse::parse_tweets(bytes_slice);
     if let IResult::Done(_,parsed) = parsed_maybe {
@@ -251,11 +251,11 @@ pub fn unretweet(tweet_id: u64, api_key: Token, token: Token) {
 }
 
 /// Favorite a tweet by its id
-pub fn favorite_tweet(tweet_id: u64, api_key: Token, token: Token) {
+pub fn favorite_tweet(tweet_id: u64, api_key: &Token, token: &Token) {
 	let tweet_id_str = tweet_id.to_string();
     let mut param = HashMap::new();
     let _ = param.insert("id".into(), tweet_id_str.into());
-    let bytes_raw = oauth_client::post(api::FAVORITE, &api_key, Some(&token), Some(&param)).unwrap();
+    let bytes_raw = oauth_client::post(api::FAVORITE, api_key, Some(token), Some(&param)).unwrap();
     let bytes_slice = bytes_raw.as_slice();
     let parsed_maybe = parse::parse_tweets(bytes_slice);
     if let IResult::Done(_,parsed) = parsed_maybe {
@@ -267,11 +267,11 @@ pub fn favorite_tweet(tweet_id: u64, api_key: Token, token: Token) {
 }
 
 /// Unfavorite a tweet by its id
-pub fn unfavorite_tweet(tweet_id: u64, api_key: Token, token: Token) {
+pub fn unfavorite_tweet(tweet_id: u64, api_key: &Token, token: &Token) {
 	let tweet_id_str = tweet_id.to_string();
     let mut param = HashMap::new();
     let _ = param.insert("id".into(), tweet_id_str.into());
-    let bytes_raw = oauth_client::post(api::UNFAVORITE, &api_key, Some(&token), Some(&param)).unwrap(); 
+    let bytes_raw = oauth_client::post(api::UNFAVORITE, api_key, Some(token), Some(&param)).unwrap(); 
     let bytes_slice = bytes_raw.as_slice();
     let parsed_maybe = parse::parse_tweets(bytes_slice);
     if let IResult::Done(_,parsed) = parsed_maybe {

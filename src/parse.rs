@@ -1,4 +1,4 @@
-//! This module contains the parser to turn a byte slice into a [TransientTweet](struct.TransientTweet.html)
+//! This module contains the parser to turn a byte slice into a `TransientTweet`
 use nom::IResult;
 use nom::IResult::{Done};
 use nom::digit;
@@ -178,15 +178,15 @@ named!(big_parser<&[u8], Vec<TransientTweet> > , many0!(step_parse));
 /// sent back by twitter. You can look at an example response
 /// [here](https://dev.twitter.com/rest/reference/get/statuses/user_timeline).
 ///
-/// The function returns an IResult, so you can pattern match to use it. 
+/// The function returns an `IResult`, so you can pattern match to use it. 
 pub fn parse_tweets(str_in: &[u8]) -> IResult<&[u8], Vec<TransientTweet>> {
     big_parser(str_in)
 }
 
-/// Return a Tweet, suitable for libraries etc.
+/// Return a `Tweet`, suitable for libraries etc.
 pub fn parse_tweets_string(str_in: &[u8]) -> Option<Vec<Tweet>> {
     if let Done(_,val) = parse_tweets(str_in) {
-        Some(val.into_iter().map(|x| convert(x)).collect())
+        Some(val.into_iter().map(convert).collect())
     }
     else {
         None
