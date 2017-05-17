@@ -14,14 +14,14 @@ Reasons to use tw-rs:
   - Faster than other tools ([t](https://github.com/sferik/t),
   [tweet-hs](https://github.com/vmchale/command-line-tweeter),
   [oysttyer](https://github.com/oysttyer/oysttyer))
-  - Lightweight (5MB, low CPU/memory usage)
+  - Lightweight (5MB executable)
   - Unobtrusive
-  - Support for colored output. 
-  - Can be used in scripts
-  - You know rust and like being able to extend your tools. 
+  - You know rust and like being able to extend your tools
   - You want something that can be called from
     [vim](https://github.com/vmchale/vim-twitter)
+  - Support for colored output
   - You want a twitter library for rust. 
+  - Can be used in scripts
   - BSD3 licensed 
 
 Reasons not to use tw-rs:
@@ -55,7 +55,7 @@ If you're on Linux/Windows the best way is probably to download the binaries
 from the releases page [here](https://github.com/vmchale/tw-rs/releases).
 
 Otherwise, you'll have to build from source. To build from source, install 
-[cargo](https://www.rustup.rs/) via rustup; on unix systems this is as simple as
+[cargo](https://www.rustup.rs/) with rustup; on unix systems this is as simple as
 
 ```
 curl https://sh.rustup.rs -sSf | sh
@@ -76,7 +76,7 @@ $ tw user
 To view a user's profile, type e.g.
 
 ```bash
-$ tw user pinepapplesmear
+$ tw user lemondefr
 ```
 
 If you have any problems along the way:
@@ -112,10 +112,9 @@ to view your own timeline.
   - [x] reply to tweet
   - [x] fav/unfav tweets
   - [x] follow/unfollow users
+  - [x] display quoted tweets alongside
   - [ ] fetch mentions
   - [ ] block accounts
-  - [ ] tweet an image
-  - [ ] display quoted tweets alongside
 
 ### Speed
 
@@ -131,7 +130,7 @@ the fastest.
 | rainbowstream | Python | x | x |  |  | x |
 | oysttyer | Perl |  | x |  | ½ |  |
 | tweet-hs | Haskell | x |  | x | x |  |
-| t | Ruby | ½ |  |  | x |  |
+| t | Ruby | ½ |  |  | x |  |  |
 
 #### Screenshots (alacritty + solarized dark)
 
@@ -181,7 +180,7 @@ To make tw use standard unicode in place of symbol fonts, simply set
 
 ## Library
 
-A library is included. It's fairly easy to use once you have the credentials set up, with three functions: one to post a status, one to get your timeline, and one to get a user profile.
+A library is included. It's fairly easy to use once you have the credentials set up, though it requires a fixed oAuth token.
 
 ### Haskell
 
