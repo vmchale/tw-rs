@@ -1,3 +1,4 @@
+- [ ] use [smallvec](https://github.com/servo/rust-smallvec) for char vectors?
 - [x] fix parser so it skips user entities?
   - [x] fix 
   - [x] get RTs correct on quote statuses

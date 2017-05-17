@@ -18,6 +18,8 @@ colored = "1.4"
 clap = {version = "2.23", features = ["yaml"]}
 base64 = "0.5"
 
+[profile.release]
+lto = true
 
 [lib]
 name = "tweet"
