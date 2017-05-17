@@ -99,7 +99,7 @@ pub fn print_profile(screen_name: &str, num: u8, show_ids: bool, api_key: &Token
     let bytes_slice = bytes_raw.as_slice();
     let parsed_maybe = parse::parse_tweets(bytes_slice);
     if let IResult::Done(_,parsed) = parsed_maybe {
-        for to_show in 0..parsed.len() {
+        for to_show in parsed {
             if show_ids {
                 println!("{:?}", to_show);
             }
@@ -196,7 +196,7 @@ pub fn print_timeline(num: u8, show_ids:bool, api_key: &Token, token: &Token) {
     let bytes_slice = bytes_raw.as_slice();
     let parsed_maybe = parse::parse_tweets(bytes_slice);
     if let IResult::Done(_,parsed) = parsed_maybe {
-        for to_show in 0..parsed.len() {
+        for to_show in parsed {
             if show_ids {
                 println!("{:?}", to_show);
             }

@@ -30,7 +30,7 @@ fn char_vector_to_string(v: Vec<char>) -> String {
     s
 }
 
-// TODO consider making this a methd?
+// TODO consider making this a method?
 fn replace_unicode(string: &str) -> char {
     let num_int = u32::from_str_radix(&string[0..4], 16)
         .expect("Failed to parses hexadecimal");
@@ -93,7 +93,7 @@ named!(unicode_char<&[u8], char>,
   do_parse!(
     tag!("\\u") >>
     num: take!(4) >>
-    (replace_unicode(from_utf8(num).expect("Failed to convert to bytes. Bad!!")))
+    (replace_unicode(from_utf8(num).unwrap()))
   )
 );
 named!(special_char<&[u8], char>,

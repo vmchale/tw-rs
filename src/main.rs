@@ -63,10 +63,10 @@ fn main() {
             }
         }
         else if let Some(num) = command.value_of("count") {
-                let num_int = num.parse::<u8>()
-                    .expect("Please enter a positive whole number");
-                print_profile("", num_int, show_ids, &key, &token);
-            }
+            let num_int = num.parse::<u8>()
+                .expect("Please enter a positive whole number");
+            print_profile("", num_int, show_ids, &key, &token);
+        }
         else {
             // this will return the user's own profile
             print_profile("", 8, show_ids, &key, &token); 
