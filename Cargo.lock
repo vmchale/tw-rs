@@ -1,6 +1,6 @@
 [root]
 name = "tw-rs"
-version = "0.1.31"
+version = "0.1.32-pre"
 dependencies = [
  "base64 0.5.2 (registry+https://github.com/rust-lang/crates.io-index)",
  "clap 2.24.1 (registry+https://github.com/rust-lang/crates.io-index)",
