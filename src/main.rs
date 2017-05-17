@@ -62,16 +62,14 @@ fn main() {
                 print_profile(user, 8, show_ids, key, token);
             }
         }
-        else {
-            if let Some(num) = command.value_of("count") {
+        else if let Some(num) = command.value_of("count") {
                 let num_int = num.parse::<u8>()
                     .expect("Please enter a positive whole number");
                 print_profile("", num_int, show_ids, key, token);
             }
-            else {
-                // this will return the user's own profile
-                print_profile("", 8, show_ids, key, token); 
-            }
+        else {
+            // this will return the user's own profile
+            print_profile("", 8, show_ids, key, token); 
         }
     }
 
@@ -110,7 +108,7 @@ fn main() {
     }
 
     // send a tweet from stdin (i.e. a pipe)
-    else if let Some(_) = matches.subcommand_matches("input") {
+    else if matches.subcommand_matches("input").is_some() {
         let mut buf_in = String::new();
         io::stdin().read_to_string(&mut buf_in)
             .expect("Failed to read from stdin. Make sure you piped in valid string data!");
@@ -174,7 +172,7 @@ fn main() {
     }
 
     // print raw bytes from user's profile; useful for debugging
-    else if let Some(_) = matches.subcommand_matches("raw") {
+    else if matches.subcommand_matches("raw").is_some() {
         profile_raw(key, token);
     }
 

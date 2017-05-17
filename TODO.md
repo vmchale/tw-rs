@@ -2,6 +2,7 @@
   - [x] fix 
   - [x] get RTs correct on quote statuses
   - [x] include quoted tweets
+- [ ] toml parser for config?
 - [x] option to disable color/fancy retweet symbol
   - [x] disable fancy unicode
 - [x] parse unicode

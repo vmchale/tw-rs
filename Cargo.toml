@@ -13,7 +13,7 @@ test = false
 
 [dependencies]
 oauth-client-fix = "0.1"
-nom = "2.2"
+nom = "3.0"
 colored = "1.4"
 clap = {version = "2.23", features = ["yaml"]}
 base64 = "0.5"
