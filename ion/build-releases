@@ -1,0 +1,2 @@
+#!/usr/bin/env ion
+export LDFLAGS=/home/vanessa/arm-bins/cross-compilation/zlib/
