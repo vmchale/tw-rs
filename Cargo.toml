@@ -14,8 +14,8 @@ test = false
 [dependencies]
 oauth-client-fix = "0.1"
 nom = "3.0"
-colored = "1.4"
-clap = {version = "2.23", features = ["yaml"]}
+colored = "1.5"
+clap = {version = "2.24", features = ["yaml"]}
 base64 = "0.5"
 
 [profile.release]
