@@ -9,9 +9,12 @@ os:
   - windows
 
 rust:
+  - stable
   - nightly
 
 script:
   - cargo build
   - cargo doc
-  - cargo bench
+  - if [ ${TRAVIS_RUST_VERSION} = "nightly" ]; then
+      cargo bench;
+    fi
