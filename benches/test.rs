@@ -1,12 +1,14 @@
 //! Module containing benchmarks
 #![allow(unused_imports)]
 
-extern crate test;
+#![feature(test)]
+extern crate tweet;
 
 #[cfg(test)]
+extern crate test;
 
 use test::test::Bencher;
-use parse::parse_tweets;
+use tweet::parse::parse_tweets;
 use std::io::prelude::*;
 use std::fs::File;
 
